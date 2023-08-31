@@ -5,7 +5,7 @@ CREATE TABLE USER (
     profile_path VARCHAR(50),
     email  VARCHAR(50),
     password  VARCHAR(50),
-    isDel VARCHAR(10),
+    isDel VARCHAR(5),
     created_at datetime not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
@@ -14,50 +14,50 @@ CREATE TABLE SPACE (
     space_name VARCHAR(50),
     space_logo_path VARCHAR(50),
     owner_id VARCHAR(20),
-    admin_code  VARCHAR(50),
-    common_code  VARCHAR(50),
-    isDel VARCHAR(10),
+    admin_code  VARCHAR(20),
+    common_code  VARCHAR(20),
+    isDel VARCHAR(5),
     created_at datetime not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE SPACEROLE (
     id  SERIAL PRIMARY KEY,
-    space_id  VARCHAR(50),
+    space_id  VARCHAR(20),
     role_name  VARCHAR(50),
     role_type VARCHAR(10),
-    isDel VARCHAR(10),
+    isDel VARCHAR(5),
     created_at datetime not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE USERSPACE (
     id  SERIAL PRIMARY KEY,
-    user_id  VARCHAR(50),
-    space_id  VARCHAR(50),
-    space_role_id  VARCHAR(50),
-    isDel VARCHAR(10),
+    user_id  VARCHAR(20),
+    space_id  VARCHAR(20),
+    space_role_id  VARCHAR(20),
+    isDel VARCHAR(5),
     created_at datetime not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE POST (
     id  SERIAL PRIMARY KEY,
-    user_id  VARCHAR(50),
-    space_id  VARCHAR(50),
-    title VARCHAR(50),
-    content VARCHAR(50),
-    post_type VARCHAR(50),
-    isAno VARCHAR(10),
-    isDel VARCHAR(10),
+    user_id  VARCHAR(20),
+    space_id  VARCHAR(20),
+    title VARCHAR(255),
+    content VARCHAR(255),
+    post_type VARCHAR(20),
+    isAno VARCHAR(5),
+    isDel VARCHAR(5),
     created_at datetime not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE CHAT (
     id  SERIAL PRIMARY KEY,
-    user_id  VARCHAR(50),
-    post_id  VARCHAR(50),
-    chat_id VARCHAR(50),
-    content VARCHAR(50),
-    isAno VARCHAR(10),
-    isDel VARCHAR(10),
+    user_id  VARCHAR(20),
+    post_id  VARCHAR(20),
+    chat_id VARCHAR(20),
+    content VARCHAR(255),
+    isAno VARCHAR(5),
+    isDel VARCHAR(5),
     created_at datetime not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
