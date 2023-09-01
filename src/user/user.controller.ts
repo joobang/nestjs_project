@@ -13,6 +13,7 @@ export class UserController {
         @Body('password') password: string,
         @Body('profile_path') profile_path: string,
     ){
+        console.log('Received values:', { email, firstname, lastname, password, profile_path });
         return await this.userService.createUser({email, firstname, lastname, password, profile_path});
     }
 }
