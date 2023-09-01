@@ -1,19 +1,17 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, ValidationPipe,UsePipes } from '@nestjs/common';
 import { UserService } from './user.service';
+import { UserEntity } from './user.entity';
 
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService){}
 
     @Post()
-    async createUser(
-        @Body('email') email: string,
-        @Body('firstname') firstname: string,
-        @Body('lastname') lastname: string,
-        @Body('password') password: string,
-        @Body('profile_path') profile_path: string,
+    @UsePipes(ValidationPipe)
+    async createUser(@Body() userEntity: UserEntity
     ){
-        console.log('Received values:', { email, firstname, lastname, password, profile_path });
-        return await this.userService.createUser({email, firstname, lastname, password, profile_path});
+        console.log('Received values:', userEntity);
+
+        return await this.userService.createUser(userEntity);
     }
 }
