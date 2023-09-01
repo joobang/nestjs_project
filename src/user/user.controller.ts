@@ -15,8 +15,9 @@ export class UserController {
     @UsePipes(ValidationPipe)
     async createUser(@Body() userEntity: UserEntity
     ){
+        const hashPassword = await this.userService.hashPassword(userEntity.password);
+        userEntity.password = hashPassword;
         console.log('Received values:', userEntity);
-
         return await this.userService.createUser(userEntity);
     }
 }

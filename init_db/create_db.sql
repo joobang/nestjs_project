@@ -4,7 +4,7 @@ CREATE TABLE USERS (
     lastname VARCHAR(30),
     profile_path VARCHAR(50),
     email  VARCHAR(50),
-    password  VARCHAR(50),
+    password  VARCHAR(255),
     isDel VARCHAR(5),
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp

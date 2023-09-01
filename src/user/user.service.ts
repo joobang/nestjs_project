@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -22,6 +23,10 @@ export class UserService {
             password,
             profile_path
         })
+    }
+
+    async hashPassword(password: string){
+        return await bcrypt.hash(password, 11);
     }
 
     async getUserById(id: number){

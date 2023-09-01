@@ -29,8 +29,8 @@ import { IsEmail, IsOptional, IsString, Length, Matches } from 'class-validator'
   
     @IsString()
     @Length(8, 50)
-    @Matches(/^[A-Za-z₩ㅇ!@#$%^&*()]{8,50}$/)
-    @Column({type: 'varchar', length: 50, nullable: false})
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])((?=.*[!@#$%^&*()])|(?=.*\d))[A-Za-z\d!@#$%^&*()]{8,50}$/, {message: 'password too weak'})
+    @Column({type: 'varchar', length: 255, nullable: false})
     password: string;
     
     @IsOptional()
