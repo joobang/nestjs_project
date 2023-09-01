@@ -23,4 +23,8 @@ export class UserService {
             profile_path
         })
     }
+
+    async getUserById(id: number){
+        return await this.UserRepo.findOne({ id });
+    }
 }

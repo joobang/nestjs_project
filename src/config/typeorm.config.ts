@@ -20,7 +20,8 @@ export function TypeormConfig(configService: ConfigService){
         database: configService.get('DB_DATABASE'),
         autoLoadEntities: true,
         synchronize: env === 'prod' ? false : synchronize,
-        logging: logging
+        logging: logging,
+        timezone: 'Asia/Seoul'
     };
 
     return option;
