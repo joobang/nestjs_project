@@ -1,4 +1,4 @@
-CREATE TABLE USER (
+CREATE TABLE USERS (
     id  SERIAL PRIMARY KEY,
     firstname VARCHAR(30),
     lastname VARCHAR(30),
@@ -6,7 +6,7 @@ CREATE TABLE USER (
     email  VARCHAR(50),
     password  VARCHAR(50),
     isDel VARCHAR(5),
-    created_at datetime not null default CURRENT_TIMESTAMP,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE SPACE (
@@ -17,7 +17,7 @@ CREATE TABLE SPACE (
     admin_code  VARCHAR(20),
     common_code  VARCHAR(20),
     isDel VARCHAR(5),
-    created_at datetime not null default CURRENT_TIMESTAMP,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE SPACEROLE (
@@ -26,7 +26,7 @@ CREATE TABLE SPACEROLE (
     role_name  VARCHAR(50),
     role_type VARCHAR(10),
     isDel VARCHAR(5),
-    created_at datetime not null default CURRENT_TIMESTAMP,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE USERSPACE (
@@ -35,7 +35,7 @@ CREATE TABLE USERSPACE (
     space_id  VARCHAR(20),
     space_role_id  VARCHAR(20),
     isDel VARCHAR(5),
-    created_at datetime not null default CURRENT_TIMESTAMP,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE POST (
@@ -47,7 +47,7 @@ CREATE TABLE POST (
     post_type VARCHAR(20),
     isAno VARCHAR(5),
     isDel VARCHAR(5),
-    created_at datetime not null default CURRENT_TIMESTAMP,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE CHAT (
@@ -58,6 +58,6 @@ CREATE TABLE CHAT (
     content VARCHAR(255),
     isAno VARCHAR(5),
     isDel VARCHAR(5),
-    created_at datetime not null default CURRENT_TIMESTAMP,
+    created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );

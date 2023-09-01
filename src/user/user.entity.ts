@@ -6,33 +6,38 @@ import {
     UpdateDateColumn,
   } from 'typeorm';
   
-  @Entity()
-  export class User {
+  @Entity('USERS')
+  export class UserEntity {
     @PrimaryGeneratedColumn()
     id: number;
   
-    @Column({ unique: true })
+    @Column({type: 'varchar', length: 50, unique: true, nullable: false })
     email: string;
 
-    @Column()
+    @Column({type: 'varchar', length: 30, nullable: false})
     firstname: string;
 
-    @Column()
+    @Column({type: 'varchar', length: 30, nullable: false})
     lastname: string;
   
-    @Column()
+    @Column({type: 'varchar', length: 50, nullable: false})
     password: string;
   
-    @Column({ nullable: true })
+    @Column({type: 'varchar', length: 100, nullable: true })
     profile_path: string;
   
-    @Column()
+    @Column({type: 'varchar', length: 5, default: 'N' })
     isDel: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamp', precision: 0,default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
   
-    @UpdateDateColumn()
+    @UpdateDateColumn({
+        type: 'timestamp',
+        precision: 0,
+        default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: 'CURRENT_TIMESTAMP',
+    })
     updated_at: Date;
   
   }
