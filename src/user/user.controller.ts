@@ -5,8 +5,8 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private readonly userService: UserService){}
 
-    @Get()
-    getHelloWorld(): string{
-        return this.userService.getHelloWorld();
-    }
+    // @Get()
+    // getHelloWorld(): string{
+    //     return this.userService.getHelloWorld();
+    // }
 }

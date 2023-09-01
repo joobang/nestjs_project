@@ -14,8 +14,8 @@ describe('UserController', () => {
     controller = module.get<UserController>(UserController);
   });
 
-  it('getHelloWorld() 의 실행 결과 테스트', () => {
-    const result = controller.getHelloWorld();
-    expect(result).toEqual('Hello World!!');
-  });
+  // it('getHelloWorld() 의 실행 결과 테스트', () => {
+  //   const result = controller.getHelloWorld();
+  //   expect(result).toEqual('Hello World!!');
+  // });
 });

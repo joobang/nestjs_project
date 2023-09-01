@@ -10,7 +10,7 @@ export function TypeormConfig(configService: ConfigService){
     const synchronize = configService.get<string>('SYNCHRONIZE') === 'true' ? true : false;
     const logging = configService.get<string>('DB_LOGGING') === 'true' ? true : false;
     const DB_TYPE: 'mysql' | null = 'mysql';
-
+    console.log(configService.get('DB_PORT'));
     const option: TypeOrmModuleOptions = {
         type: DB_TYPE,
         host: configService.get('DB_HOST'),
