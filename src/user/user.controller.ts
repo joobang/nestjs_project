@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, ValidationPipe,UsePipes, Param,Logger, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, ValidationPipe,UsePipes, Param,Logger, UseGuards, Req, ParseIntPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { LocalServiceAuthGuard } from 'src/auth/guards/local-service.guard';
@@ -10,12 +10,21 @@ export class UserController {
     constructor(private readonly userService: UserService){}
 
     @UseGuards(JwtServiceAuthGuard)
+    @Get('myprofile')
+    async getMyprofile(@Req() req){
+        this.logger.log(`GET /user/myprofile has been executed`);
+        console.log(req.user)
+        return await this.userService.getUserById(req.user.id);
+    }
+
+    @UseGuards(JwtServiceAuthGuard)
     @Get(':id')
-    async getUserById(@Param('id') id: number) {
+    async getUserById(@Param('id', new ParseIntPipe()) id: number) {
         this.logger.log(`GET /user/${id} has been executed`);
         return await this.userService.getUserById(id);
     }
 
+ 
     @Post()
     @UsePipes(ValidationPipe)
     async createUser(@Body() userEntity: UserEntity
