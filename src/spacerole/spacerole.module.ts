@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SpaceRoleEntity } from './spacerole.entity';
-import { SpaceroleService } from './spacerole.service';
+import { SpaceRoleService } from './spacerole.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([SpaceRoleEntity])],
-    providers: [SpaceroleService],
-    exports: [SpaceroleService]
+    providers: [SpaceRoleService],
+    exports: [SpaceRoleService]
 })
-export class SpaceroleModule {}
+export class SpaceRoleModule {}

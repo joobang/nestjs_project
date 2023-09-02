@@ -1,7 +1,8 @@
-import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Logger, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { SpaceService } from './space.service';
+import { CreateSpaceParamDto } from './dto/create-param.dto';
 
 @Controller('space')
 export class SpaceController {
@@ -9,9 +10,10 @@ export class SpaceController {
     constructor(private readonly spaceService: SpaceService){}
 
     @UseGuards(JwtServiceAuthGuard)
+    @UsePipes(ValidationPipe)
     @Post()
-    async createSpace(@Body() createSpaceDto: CreateSpaceDto){
+    async createSpace(@Req() req, @Body() createSpaceParamDto: CreateSpaceParamDto){
         
-        return
+        return await this.spaceService.createSpace(req.user.id, createSpaceParamDto);
     }
 }

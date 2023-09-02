@@ -9,10 +9,10 @@ import { AuthModule } from './auth/auth.module';
 import { SpaceController } from './space/space.controller';
 import { SpaceService } from './space/space.service';
 import { SpaceModule } from './space/space.module';
-import { SpaceroleService } from './spacerole/spacerole.service';
-import { SpaceroleModule } from './spacerole/spacerole.module';
-import { UserspaceService } from './userspace/userspace.service';
-import { UserspaceModule } from './userspace/userspace.module';
+import { SpaceRoleService } from './spacerole/spacerole.service';
+import { SpaceRoleModule } from './spacerole/spacerole.module';
+import { UserSpaceService } from './userspace/userspace.service';
+import { UserSpaceModule } from './userspace/userspace.module';
 
 @Module({
   imports: [
@@ -28,10 +28,10 @@ import { UserspaceModule } from './userspace/userspace.module';
     UserModule,
     AuthModule,
     SpaceModule,
-    SpaceroleModule,
-    UserspaceModule
+    SpaceRoleModule,
+    UserSpaceModule
   ],
-  controllers: [AppController, SpaceController],
-  providers: [AppService, SpaceService, SpaceroleService, UserspaceService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
