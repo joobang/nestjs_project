@@ -1,7 +1,5 @@
 import { Body, Controller, Get, Post, ValidationPipe,UsePipes, Param,Logger, UseGuards, Req, ParseIntPipe, Put, ForbiddenException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserEntity } from './user.entity';
-import { LocalServiceAuthGuard } from 'src/auth/guards/local-service.guard';
 import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -68,4 +66,6 @@ export class UserController {
         
         return await this.userService.putMyprofile(req.user.id, updateUserDto);
     }
+
+
 }
