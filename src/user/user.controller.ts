@@ -14,7 +14,7 @@ export class UserController {
     async getMyprofile(@Req() req){
         this.logger.log(`GET /user/myprofile has been executed`);
         console.log(req.user)
-        return await this.userService.getUserById(req.user.id);
+        return await this.userService.getMyprofile(req.user.id);
     }
 
     @UseGuards(JwtServiceAuthGuard)

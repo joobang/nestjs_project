@@ -30,6 +30,23 @@ export class UserService {
     }
 
     async getUserById(id: number){
-        return await this.UserRepo.findOne({ id });
+        const user: UserEntity = await this.UserRepo.findOne({ id });
+        return {
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            profile_path: user.profile_path
+        }
+    }
+
+    async getMyprofile(id: number){
+        const user: UserEntity = await this.UserRepo.findOne({ id });
+        return {
+            id: user.id,
+            email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            profile_path: user.profile_path
+        }
     }
 }
