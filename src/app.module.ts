@@ -9,10 +9,6 @@ import { AuthModule } from './auth/auth.module';
 import { SpaceController } from './space/space.controller';
 import { SpaceService } from './space/space.service';
 import { SpaceModule } from './space/space.module';
-import { SpaceRoleService } from './spacerole/spacerole.service';
-import { SpaceRoleModule } from './spacerole/spacerole.module';
-import { UserSpaceService } from './userspace/userspace.service';
-import { UserSpaceModule } from './userspace/userspace.module';
 
 @Module({
   imports: [
@@ -28,8 +24,6 @@ import { UserSpaceModule } from './userspace/userspace.module';
     UserModule,
     AuthModule,
     SpaceModule,
-    SpaceRoleModule,
-    UserSpaceModule
   ],
   controllers: [AppController],
   providers: [AppService],

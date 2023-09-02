@@ -2,17 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { SpaceEntity } from './space.entity';
-import { SpaceRoleService } from '../spaceRole/spaceRole.service';
-import { UserSpaceService } from '../userSpace/userSpace.service';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { CreateSpaceParamDto } from './dto/create-param.dto';
 
 @Injectable()
 export class SpaceService {
     constructor(
-        @InjectRepository(SpaceEntity)
-        private readonly SpaceRepo: Repository<SpaceEntity>,
+        @InjectRepository(SpaceEntity) private readonly SpaceRepo: Repository<SpaceEntity>,
         private readonly connection: Connection,
+        
     ){}
 
     async createSpace(id: number, createSpaceParamDto: CreateSpaceParamDto) {
@@ -29,7 +27,10 @@ export class SpaceService {
             createSpaceDto.common_code = body.common_code;
             createSpaceDto.space_logo_path = body.space_logo_path;
             
-            const space = await this.SpaceRepo.save(createSpaceDto);
+            const space = await queryRunner.manager.save(SpaceEntity, createSpaceDto);
+            
+            const space_id = space.id;
+            // await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array);
 
             await queryRunner.commitTransaction();
             return ;
