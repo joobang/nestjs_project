@@ -21,12 +21,6 @@ export class UpdateUserDto {
 
     @IsOptional()
     @IsString()
-    @Length(8, 50)
-    @Matches(/^(?=.*[a-z])(?=.*[A-Z])((?=.*[!@#$%^&*()])|(?=.*\d))[A-Za-z\d!@#$%^&*()]{8,50}$/, {message: 'password too weak'})
-    password_confirm: string;
-
-    @IsOptional()
-    @IsString()
     profile_path: string;
 }
   

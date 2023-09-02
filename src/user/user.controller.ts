@@ -43,19 +43,28 @@ export class UserController {
     @UsePipes(ValidationPipe)
     async putMyprofile(
         @Req() req, 
-        @Body() updateUserDto: UpdateUserDto,
+        @Body() body: any
     ){
         this.logger.log('PUT /user/myprofile has been executed');
-        console.log(updateUserDto)
+        
+        const { password_confirm, ...updateUserDto } = body;
+
         if(Object.keys(updateUserDto).length === 0){
             throw new ForbiddenException('You need to update at least one.')
         }
-        // if(!(password !== password_confirm)) {
-        //     throw new ForbiddenException('Password, password confirm do not match.');
-        // }
-        const hashPassword = await this.userService.hashPassword(updateUserDto.password);
-        updateUserDto.password = hashPassword
-        //const hashPasswordConfrim = await this.userService.hashPassword(password_confirm);
+
+        // 비밀번호와 비밀번호 확인이 둘 다 제공되었을 때만 비밀번호를 수정하고
+        // 둘 중 하나만 제공되었거나 두 값이 다를 경우 에러를 반환
+        if( 'password' in updateUserDto || 'password_confirm' in updateUserDto){
+            console.log(updateUserDto.password)
+            console.log(password_confirm)
+            if(updateUserDto.password !== password_confirm){
+                throw new ForbiddenException('Password, password confirm do not match.');
+            }
+
+            const hashPassword = await this.userService.hashPassword(updateUserDto.password);
+            updateUserDto.password = hashPassword
+        }
         
         return await this.userService.putMyprofile(req.user.id, updateUserDto);
     }

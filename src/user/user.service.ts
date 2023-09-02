@@ -52,6 +52,7 @@ export class UserService {
     }
 
     async putMyprofile(id: number, updateUserDto: UpdateUserDto){
-        return await this.UserRepo.update(id, updateUserDto);
+        await this.UserRepo.update(id, updateUserDto);
+        return this.getMyprofile(id);
     }
 }
