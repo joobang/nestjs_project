@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -48,5 +49,9 @@ export class UserService {
             lastname: user.lastname,
             profile_path: user.profile_path
         }
+    }
+
+    async putMyprofile(id: number, updateUserDto: UpdateUserDto){
+        return await this.UserRepo.update(id, updateUserDto);
     }
 }
