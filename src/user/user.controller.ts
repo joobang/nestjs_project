@@ -2,13 +2,14 @@ import { Body, Controller, Get, Post, ValidationPipe,UsePipes, Param,Logger, Use
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { LocalServiceAuthGuard } from 'src/auth/guards/local-service.guard';
+import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 
 @Controller('user')
 export class UserController {
     private readonly logger = new Logger(UserController.name);
     constructor(private readonly userService: UserService){}
 
-    @UseGuards(LocalServiceAuthGuard)
+    @UseGuards(JwtServiceAuthGuard)
     @Get(':id')
     async getUserById(@Param('id') id: number) {
         this.logger.log(`GET /user/${id} has been executed`);
