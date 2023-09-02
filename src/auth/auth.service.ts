@@ -12,12 +12,14 @@ export class AuthService {
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
         private jwtService: JwtService
-    ){}
+    ){
+        //console.log(this.jwtService);
+    }
 
     async validateServiceUser(email: string, password: string): Promise<any>{
         const user = await this.userRepo.findOne({
             where:{email}
-        });
+        }); 
 
         if (!user){
             throw new ForbiddenException('User does not exist.')
@@ -30,9 +32,7 @@ export class AuthService {
         return user;
     }
 
-    async loginServiceUser(user: UserEntity){
-        const payload : Payload = {id: user.id, email: user.email};
-        
+    async loginServiceUser(payload: Payload){
         return {
             accessToken: this.jwtService.sign(payload),
         };
