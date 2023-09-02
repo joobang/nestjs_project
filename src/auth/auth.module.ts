@@ -7,7 +7,7 @@ import { UserEntity } from 'src/user/user.entity';
 import { AuthService } from './auth.service';
 import { LocalServiceStrategy } from './strategies/local-service.strategy';
 import { AuthController } from './auth.controller';
-import { UserService } from 'src/user/user.service';
+import { JwtServiceStrategy } from './strategies/jwt-service.strategy';
 
 @Module({
     imports: [
@@ -17,13 +17,13 @@ import { UserService } from 'src/user/user.service';
             useFactory: (configService: ConfigService) => {
                 return {
                     secret: configService.get('SECRET_KEY'),
-                    signOptions: { expiresIn: '1800s'}
+                    signOptions: { expiresIn: '1h'}
                 };
             },
             inject: [ConfigService]
         }),
     ],
-    providers: [AuthService, LocalServiceStrategy,UserService],
+    providers: [AuthService, LocalServiceStrategy,JwtServiceStrategy],
     controllers:[AuthController],
 })
 export class AuthModule {}

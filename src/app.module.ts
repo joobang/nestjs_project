@@ -8,6 +8,7 @@ import { TypeormConfig } from './config/typeorm.config';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { AuthModule } from './auth/auth.module';
       useFactory: TypeormConfig
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    JwtModule
   ],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService],

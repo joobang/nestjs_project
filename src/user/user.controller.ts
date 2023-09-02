@@ -8,7 +8,7 @@ export class UserController {
     private readonly logger = new Logger(UserController.name);
     constructor(private readonly userService: UserService){}
 
-    //@UseGuards(LocalServiceAuthGuard)
+    @UseGuards(LocalServiceAuthGuard)
     @Get(':id')
     async getUserById(@Param('id') id: number) {
         this.logger.log(`GET /user/${id} has been executed`);
