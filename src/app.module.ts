@@ -11,6 +11,8 @@ import { SpaceService } from './space/space.service';
 import { SpaceModule } from './space/space.module';
 import { SpaceroleService } from './spacerole/spacerole.service';
 import { SpaceroleModule } from './spacerole/spacerole.module';
+import { UserspaceService } from './userspace/userspace.service';
+import { UserspaceModule } from './userspace/userspace.module';
 
 @Module({
   imports: [
@@ -26,9 +28,10 @@ import { SpaceroleModule } from './spacerole/spacerole.module';
     UserModule,
     AuthModule,
     SpaceModule,
-    SpaceroleModule
+    SpaceroleModule,
+    UserspaceModule
   ],
   controllers: [AppController, SpaceController],
-  providers: [AppService, SpaceService, SpaceroleService],
+  providers: [AppService, SpaceService, SpaceroleService, UserspaceService],
 })
 export class AppModule {}

@@ -6,19 +6,19 @@ import {
     UpdateDateColumn,
   } from 'typeorm';
 
-@Entity('SPACEROLE')
-export class SpaceRoleEntity {
+@Entity('USERSPACE')
+export class UserSpaceEntity {
   @PrimaryGeneratedColumn()
   id: number;
   
   @Column({type: 'varchar', length: 20, nullable: false })
+  user_id: string;
+
+  @Column({type: 'varchar', length: 20, nullable: false })
   space_id: string;
 
-  @Column({type: 'varchar', length: 50, nullable: false })
-  role_name: string;
-  
-  @Column({type: 'varchar', length: 10, nullable: false })
-  role_type: string;
+  @Column({type: 'varchar', length: 20, nullable: false })
+  space_role_id: string;
     
   @Column({type: 'varchar', length: 5, default: 'N' })
   isDel: string;
