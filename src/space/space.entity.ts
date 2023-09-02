@@ -6,29 +6,29 @@ import {
     UpdateDateColumn,
   } from 'typeorm';
 
-@Entity('USERS')
-export class UserEntity {
+@Entity('SPACE')
+export class SpaceEntity {
   @PrimaryGeneratedColumn()
   id: number;
   
-  @Column({type: 'varchar', length: 50, unique: true, nullable: false })
-  email: string;
-  
-  @Column({type: 'varchar', length: 30, nullable: false})
-  firstname: string;
+  @Column({type: 'varchar', length: 100, nullable: false })
+  space_name: string;
 
-  @Column({type: 'varchar', length: 30, nullable: false})
-  lastname: string;
-
-  @Column({type: 'varchar', length: 255, nullable: false})
-  password: string;
-  
   @Column({type: 'varchar', length: 255, nullable: true })
-  profile_path: string;
-
+  space_logo_path: string;
+  
+  @Column({type: 'varchar', length: 20, nullable: false })
+  owner_id: string;
+  
+  @Column({type: 'varchar', length: 20, nullable: false })
+  admin_code: string;
+  
+  @Column({type: 'varchar', length: 20, nullable: false })
+  common_code: string;
+  
   @Column({type: 'varchar', length: 5, default: 'N' })
   isDel: string;
-
+  
   @CreateDateColumn({ type: 'timestamp', precision: 0,default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 

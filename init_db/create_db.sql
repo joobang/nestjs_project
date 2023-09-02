@@ -2,7 +2,7 @@ CREATE TABLE USERS (
     id  SERIAL PRIMARY KEY,
     firstname VARCHAR(30),
     lastname VARCHAR(30),
-    profile_path VARCHAR(50),
+    profile_path VARCHAR(255),
     email  VARCHAR(50),
     password  VARCHAR(255),
     isDel VARCHAR(5),
@@ -11,8 +11,8 @@ CREATE TABLE USERS (
 );
 CREATE TABLE SPACE (
     id  SERIAL PRIMARY KEY,
-    space_name VARCHAR(50),
-    space_logo_path VARCHAR(50),
+    space_name VARCHAR(100),
+    space_logo_path VARCHAR(255),
     owner_id VARCHAR(20),
     admin_code  VARCHAR(20),
     common_code  VARCHAR(20),
