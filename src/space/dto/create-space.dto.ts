@@ -1,7 +1,7 @@
 
 import { IsEmail, IsOptional, IsString, Length, Matches } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateSpaceDto {
     
     @IsString()
     @Length(1, 100)

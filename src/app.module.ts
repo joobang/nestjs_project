@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { SpaceController } from './space/space.controller';
 import { SpaceService } from './space/space.service';
 import { SpaceModule } from './space/space.module';
+import { SpaceroleService } from './spacerole/spacerole.service';
+import { SpaceroleModule } from './spacerole/spacerole.module';
 
 @Module({
   imports: [
@@ -23,9 +25,10 @@ import { SpaceModule } from './space/space.module';
     }),
     UserModule,
     AuthModule,
-    SpaceModule
+    SpaceModule,
+    SpaceroleModule
   ],
   controllers: [AppController, SpaceController],
-  providers: [AppService, SpaceService],
+  providers: [AppService, SpaceService, SpaceroleService],
 })
 export class AppModule {}
