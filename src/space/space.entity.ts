@@ -20,10 +20,10 @@ export class SpaceEntity {
   @Column({type: 'varchar', length: 20, nullable: false })
   owner_id: string;
   
-  @Column({type: 'varchar', length: 20, nullable: false })
+  @Column({type: 'varchar', length: 20, nullable: false, unique: true })
   admin_code: string;
   
-  @Column({type: 'varchar', length: 20, nullable: false })
+  @Column({type: 'varchar', length: 20, nullable: false, unique: true })
   common_code: string;
   
   @Column({type: 'varchar', length: 5, default: 'N' })
