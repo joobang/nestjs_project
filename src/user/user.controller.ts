@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateParamDto } from './dto/update-param.dto';
 
 
 @Controller('user')
@@ -41,26 +42,25 @@ export class UserController {
     @UsePipes(ValidationPipe)
     async putMyprofile(
         @Req() req, 
-        @Body() body: any
+        @Body() updateParmDto: UpdateParamDto
     ){
         this.logger.log('PUT /user/myprofile has been executed');
         
-        const { password_confirm, ...updateUserDto } = body;
+        const { password_confirm, ...body} = updateParmDto;
+        const updateUserDto: UpdateUserDto = body;
 
-        if(Object.keys(updateUserDto).length === 0){
+        if(Object.keys(updateParmDto).length === 0){
             throw new ForbiddenException('You need to update at least one.')
         }
 
         // 비밀번호와 비밀번호 확인이 둘 다 제공되었을 때만 비밀번호를 수정하고
         // 둘 중 하나만 제공되었거나 두 값이 다를 경우 에러를 반환
-        if( 'password' in updateUserDto || 'password_confirm' in updateUserDto){
-            console.log(updateUserDto.password)
-            console.log(password_confirm)
-            if(updateUserDto.password !== password_confirm){
+        if( 'password' in updateParmDto || 'password_confirm' in updateParmDto){
+            if(updateParmDto.password !== updateParmDto.password_confirm){
                 throw new ForbiddenException('Password, password confirm do not match.');
             }
 
-            const hashPassword = await this.userService.hashPassword(updateUserDto.password);
+            const hashPassword = await this.userService.hashPassword(updateParmDto.password);
             updateUserDto.password = hashPassword
         }
         
