@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, QueryRunner, Repository } from 'typeorm';
 import { SpaceEntity } from './space.entity';
@@ -7,6 +7,7 @@ import { CreateSpaceParamDto } from './dto/create-param.dto';
 import { UserSpaceService } from 'src/userspace/userspace.service';
 import { SpaceRoleService } from 'src/spacerole/spacerole.service';
 import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
+import { JoinSpaceDto } from './dto/join-space.dto';
 
 @Injectable()
 export class SpaceService {
@@ -115,5 +116,28 @@ export class SpaceService {
         })
         
         return spaces;
+    }
+
+    async joinSapce(joinSpaceDto: JoinSpaceDto) {
+        const queryRunner = this.connection.createQueryRunner();
+        await queryRunner.connect();
+        const joincode = joinSpaceDto.joincode;
+        
+        await queryRunner.startTransaction();
+        try {
+            const space = await queryRunner.manager.findOne(SpaceEntity, { where: [{ admin_code: joincode }, {common_code: joincode}]});
+            if(!space){
+                throw new NotFoundException('joincode not exists');
+            }
+            console.log(space);
+            
+            await queryRunner.commitTransaction();
+            return ;
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            throw error;
+        } finally {
+            await queryRunner.release();
+        }
     }
 }

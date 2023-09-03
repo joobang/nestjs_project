@@ -3,6 +3,7 @@ import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { SpaceService } from './space.service';
 import { CreateSpaceParamDto } from './dto/create-param.dto';
+import { JoinSpaceDto } from './dto/join-space.dto';
 
 @Controller('space')
 export class SpaceController {
@@ -20,8 +21,21 @@ export class SpaceController {
     @UseGuards(JwtServiceAuthGuard)
     @Get('myspace')
     async getMyprofile(@Req() req){
-        this.logger.log(`GET /user/myprofile has been executed`);
+        this.logger.log(`GET /space/myspace has been executed`);
         const space = await this.spaceService.getMySpace(req.user.id);
+        return Object.assign({
+            data: space ,
+            statusCode: 200,
+            statusMsg: 'get my space'
+        })
+    }
+
+    @UseGuards(JwtServiceAuthGuard)
+    @UsePipes(ValidationPipe)
+    @Post('join')
+    async joinSpace(@Req() req, @Body() joinSpaceDto: JoinSpaceDto){
+        this.logger.log(`GET /user/myprofile has been executed`);
+        const space = await this.spaceService.joinSapce(joinSpaceDto);
         return Object.assign({
             data: space ,
             statusCode: 200,
