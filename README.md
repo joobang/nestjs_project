@@ -108,10 +108,10 @@ $ npm run start:prod
     - [유저조회](#get-user)
     - [내정보조회](#get-user)
     - [내정보수정](#get-user)
-3. [Space APIs](#space-apis)
+3. [Space API](#space-apis)
     - [공간생성](#create-user)
-    - [공간참여](#get-user)
     - [참여코드조회](#get-user)
+    - [공간참여](#get-user)
     - [내공간조회](#get-user)
     - [역할삭제](#get-user)
     - [공간삭제](#get-user)
@@ -178,3 +178,67 @@ $ npm run start:prod
     "firstname" : "jooohwan"
 }
 ```
+## Space API
+
+### 공간 생성
+공간을 생성한다.
+
+**Endpoint:**  
+`POST /space`
+
+**Request Body:**
+```json
+{
+    "space_name" : "학원",
+    "admin_array" : ["강사","원장","부원장"],
+    "common_array" : ["학부보","학생"],
+    "owner_role" : "강사"
+}
+```
+------
+### 참여 코드 조회
+공간마다 가지고 있는 참여코드로 공간정보를 조회한다.
+
+참여코드가 관리자면 공간정보와 관리자 권한 정보,
+
+참여코드가 참여자면 공간정보와 참여자 권한 정보를 가져온다.
+
+**Endpoint:**  
+`GET /space/:joincode`
+
+------
+### 공간 참여
+참여코드와 권한정보로 공간에 참여한다.
+
+**Endpoint:**  
+`POST /space/join`
+
+**Request Body:**
+```json
+{
+    "joincode":"ZZxJyzrr",
+    "role_name" : "원장"
+}
+```
+------
+### 내 공간 조회
+로그인한 유저 id가 참여하고 있는 공간정보와 권한 정보를 가져온다.
+
+**Endpoint:**  
+`GET /space/myspace`
+
+------
+### 공간 권한 삭제
+공간 권한 id로 isDel 값을 'Y'로 수정한다. (soft delete)
+
+**Endpoint:**  
+`PUT /space/role/:id`
+
+------
+### 공간 삭제
+공간 id로 isDel 값을 'Y'로 수정한다. (soft delete)
+
+**Endpoint:**  
+`PUT /space/:id`
+
+------
