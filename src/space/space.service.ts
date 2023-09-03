@@ -114,6 +114,10 @@ export class SpaceService {
                 join_code: data.role.role_type === 'Admin' ? data.space.admin_code : data.space.common_code,
                 role_name: data.role.role_name
             });
+            if (data.space.owner_id !== String(user_id)) {
+                delete object.owner_id;
+            }
+            
             spaces.push(object);
 
         })
@@ -132,9 +136,9 @@ export class SpaceService {
             if(!spaceByCode){
                 throw new NotFoundException('joincode not exists');
             }
-            console.log(spaceByCode);
             
             const space_id = spaceByCode.id;
+            const role_type = spaceByCode.admin_code === joincode ? 'Admin' : 'Common';
             // 사용자는 한 공간에 하나의 역할을 가짐.
             const spaceByuserId = await queryRunner.manager.findOne(UserSpaceEntity, { where: { space_id: space_id, user_id: userid }});
             if(spaceByuserId){
@@ -143,10 +147,9 @@ export class SpaceService {
             
             // 현재 공간에 속해있지 않으면 
             // 공간 역할 추가
-            const spaceRole_id = await this.spaceRoleService.createSpaceRoleByJoin(queryRunner, space_id);
+            const spaceRole_id = await this.spaceRoleService.createSpaceRoleByJoin(queryRunner, space_id, joinSpaceDto.role_name, role_type);
             // 공간 유저간 중간 테이블 등록
-            //await this.userSpaceService.createUserSpace(queryRunner, userid, space_id, spaceRole_id);
-
+            await this.userSpaceService.createUserSpace(queryRunner, userid, space_id, spaceRole_id);
 
             await queryRunner.commitTransaction();
             return ;

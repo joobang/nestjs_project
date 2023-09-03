@@ -37,14 +37,14 @@ export class SpaceRoleService {
         return spaceRoleid;
     }
 
-    async createSpaceRoleByJoin(queryRunner: QueryRunner, space_id: number){
-        let spaceRole_id = 0;
+    async createSpaceRoleByJoin(queryRunner: QueryRunner, space_id: number, role_name: string, role_type:string){
         const createSpaceRoleDto = new CreateSpaceRoleDto();
-        //createSpaceRoleDto.space_id = String(space_id);
-        // createSpaceRoleDto.role_name = admin_array[i];
-        // createSpaceRoleDto.role_type = 'Admin'
+        createSpaceRoleDto.space_id = String(space_id);
+        createSpaceRoleDto.role_name = role_name;
+        createSpaceRoleDto.role_type = role_type;
         
-        return spaceRole_id;
+        const spaceRole = await queryRunner.manager.save(SpaceRoleEntity, createSpaceRoleDto);
+        return spaceRole.id;
     }
     
 }

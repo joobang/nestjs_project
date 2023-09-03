@@ -6,5 +6,10 @@ export class JoinSpaceDto {
     @IsString()
     @Length(1, 8)
     joincode: string;
+
+    @IsString()
+    @Length(1, 50)
+    role_name: string;
+
 }
   
