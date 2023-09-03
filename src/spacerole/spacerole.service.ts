@@ -22,6 +22,15 @@ export class SpaceRoleService {
             await queryRunner.manager.save(SpaceRoleEntity, createSpaceRoleDto);
         }
 
+        for(let i = 0; i<common_array.length; i++){
+            const createSpaceRoleDto = new CreateSpaceRoleDto();
+            createSpaceRoleDto.space_id = String(space_id);
+            createSpaceRoleDto.role_name = common_array[i];
+            createSpaceRoleDto.role_type = 'Common'
+            
+            await queryRunner.manager.save(SpaceRoleEntity, createSpaceRoleDto);
+        }
+
         return;
     }
     
