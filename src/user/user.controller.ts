@@ -16,8 +16,9 @@ export class UserController {
     async getMyprofile(@Req() req){
         this.logger.log(`GET /user/myprofile has been executed`);
         const profile =await this.userService.getMyprofile(req.user.id);
+        //console.log(profile);
         return Object.assign({
-            data: { ...profile },
+            data: profile ,
             statusCode: 200,
             statusMsg: 'get myprofile'
         })

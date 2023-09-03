@@ -203,7 +203,7 @@ export class SpaceService {
         if(userSpace){
             throw new BadRequestException('role is in use.');
         }
-        await this.spaceRoleRepo.delete({id: role_id});
+        await this.spaceRoleRepo.update({id: role_id}, {isDel: 'Y'});
     }
 
     async deleteSpaceById(space_id: number){
@@ -219,11 +219,15 @@ export class SpaceService {
         await queryRunner.startTransaction();
         try {
             // 유저 공간(userspace) 삭제
-            await queryRunner.manager.delete(UserSpaceEntity, { space_id: space_id});
+            //await queryRunner.manager.delete(UserSpaceEntity, { space_id: space_id});
+            await queryRunner.manager.update(UserSpaceEntity, { space_id: space_id}, {isDel: 'Y'});
+            
             // 공간 역할(spacerole) 삭제
-            await queryRunner.manager.delete(SpaceRoleEntity, { space_id: space_id});
+            //await queryRunner.manager.delete(SpaceRoleEntity, { space_id: space_id});
+            await queryRunner.manager.update(SpaceRoleEntity, { space_id: space_id}, {isDel: 'Y'});
             // 공간 (space) 삭제
-            await queryRunner.manager.delete(SpaceEntity, { id: space_id});
+            //await queryRunner.manager.delete(SpaceEntity, { id: space_id});
+            await queryRunner.manager.update(SpaceEntity, { id: space_id}, {isDel: 'Y'});
 
             await queryRunner.commitTransaction();
             return ;

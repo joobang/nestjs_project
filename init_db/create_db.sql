@@ -30,6 +30,9 @@ CREATE TABLE SPACEROLE (
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE USERSPACE (
+    user_id INT,
+    space_id INT,
+    space_role_id INT,
     isDel VARCHAR(5),
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp

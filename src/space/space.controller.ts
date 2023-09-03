@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { SpaceService } from './space.service';
@@ -60,7 +60,7 @@ export class SpaceController {
     }
 
     @UseGuards(JwtServiceAuthGuard)
-    @Delete('role/:id')
+    @Put('role/:id')
     async deleteRoleById(@Req() req, @Param('id') role_id: number){
         this.logger.log(`DELETE /space/role/${role_id} has been executed`);
         const role = await this.spaceService.deleteRoleById(role_id);
@@ -72,7 +72,7 @@ export class SpaceController {
     }
 
     @UseGuards(JwtServiceAuthGuard)
-    @Delete(':id')
+    @Put(':id')
     async deleteSpaceById(@Req() req, @Param('id') space_id: number){
         this.logger.log(`DELETE /space/${space_id} has been executed`);
         const role = await this.spaceService.deleteSpaceById(space_id);

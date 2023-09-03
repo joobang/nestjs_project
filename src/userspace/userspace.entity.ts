@@ -12,7 +12,7 @@ import {
     PrimaryColumn,
   } from 'typeorm';
 
-@Entity('USERSPACE')
+@Entity({name: 'USERSPACE'})
 export class UserSpaceEntity {
   @PrimaryColumn()
   user_id: number;
