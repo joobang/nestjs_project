@@ -21,4 +21,8 @@ export class UserSpaceService {
         
         return;
     }
+
+    async getUserSpace(user_id: number){
+        const userSpace = await this.UserSpaceRepo.find({where:{user_id:user_id}})
+    }
 }

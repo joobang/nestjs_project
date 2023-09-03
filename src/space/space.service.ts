@@ -9,6 +9,8 @@ import { SpaceRoleService } from 'src/spacerole/spacerole.service';
 import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
 import { JoinSpaceDto } from './dto/join-space.dto';
 import { SpaceRoleEntity } from 'src/spacerole/spacerole.entity';
+import { DeleteRoleDto } from './dto/delete-role.dto';
+import { DeleteSpaceDto } from './dto/delete-space.dto';
 
 @Injectable()
 export class SpaceService {
@@ -103,7 +105,7 @@ export class SpaceService {
     }
 
     async getMySpace(user_id:number){
-        const userspace: Array<UserSpaceEntity> = await this.userSpaceRepo.find({ where: { user_id: user_id }, relations: ['space','role'] });
+        const userspace: Array<UserSpaceEntity> = await this.userSpaceRepo.find({ where: { user_id: user_id , isDel:'N'}, relations: ['space','role'] });
         //console.log(userspace);
         let spaces = [];
         userspace.forEach((data) => {
@@ -134,7 +136,7 @@ export class SpaceService {
         
         await queryRunner.startTransaction();
         try {
-            const spaceByCode = await queryRunner.manager.findOne(SpaceEntity, { where: [{ admin_code: joincode }, {common_code: joincode}]});
+            const spaceByCode = await queryRunner.manager.findOne(SpaceEntity, { where: [{ admin_code: joincode, isDel: 'N'}, {common_code: joincode, isDel: 'N'}]});
             if(!spaceByCode){
                 throw new NotFoundException('joincode is not exists');
             }
@@ -142,12 +144,12 @@ export class SpaceService {
             const space_id = spaceByCode.id;
             const role_type = spaceByCode.admin_code === joincode ? 'Admin' : 'Common';
             // 사용자는 한 공간에 하나의 역할을 가짐.
-            const spaceByuserId = await queryRunner.manager.findOne(UserSpaceEntity, { where: { space_id: space_id, user_id: userid }});
+            const spaceByuserId = await queryRunner.manager.findOne(UserSpaceEntity, { where: { space_id: space_id, user_id: userid, isDel: 'N'}});
             if(spaceByuserId){
                 throw new ConflictException('Already join in this space.');
             }
             
-            const spaceRole = await queryRunner.manager.findOne(SpaceRoleEntity, { where: { space_id: space_id, role_name: joinSpaceDto.role_name, role_type: role_type}});
+            const spaceRole = await queryRunner.manager.findOne(SpaceRoleEntity, { where: { space_id: space_id, role_name: joinSpaceDto.role_name, role_type: role_type, isDel: 'N'}});
             if(!spaceRole){
                 throw new NotFoundException('Role is not exists');
             }
@@ -168,7 +170,7 @@ export class SpaceService {
 
     async getJoincodeInfo(userid: number, joincode: string) {
 
-        const spaceByCode = await this.SpaceRepo.findOne({ where: [{ admin_code: joincode }, {common_code: joincode}]});
+        const spaceByCode = await this.SpaceRepo.findOne({ where: [{ admin_code: joincode , isDel: 'N'}, {common_code: joincode, isDel: 'N'}]});
 
         if(!spaceByCode){
             throw new NotFoundException('joincode not exists');
@@ -177,7 +179,7 @@ export class SpaceService {
         const space_id = spaceByCode.id;
         const role_type = spaceByCode.admin_code === joincode ? 'Admin' : 'Common';
 
-        const spaceRole = await this.spaceRoleRepo.find({ where : {space_id: space_id, role_type: role_type}});
+        const spaceRole = await this.spaceRoleRepo.find({ where : {space_id: space_id, role_type: role_type, isDel: 'N'}});
         //console.log(spaceRole)
         let roleNames = spaceRole.map(data => Object.assign({
             id: data.id,
@@ -194,23 +196,23 @@ export class SpaceService {
         
     }
 
-    async deleteRoleById(role_id: number){
-        const spaceRoleById = await this.spaceRoleRepo.findOne({ where: { id: role_id }});
+    async deleteRoleById(userid: number, deleteRoleDto: DeleteRoleDto){
+        const spaceRoleById = await this.spaceRoleRepo.findOne({ where: { id: deleteRoleDto.role_id, isDel: 'N' }});
 
         if(!spaceRoleById){
             throw new NotFoundException('role is not exists');
         }
 
-        const userSpace = await this.userSpaceRepo.findOne({ where: { space_role_id: role_id }});
+        const userSpace = await this.userSpaceRepo.findOne({ where: { space_role_id: deleteRoleDto.role_id, isDel: 'N' }});
 
         if(userSpace){
             throw new BadRequestException('role is in use.');
         }
-        await this.spaceRoleRepo.update({id: role_id}, {isDel: 'Y'});
+        await this.spaceRoleRepo.update({id: deleteRoleDto.role_id}, {isDel: 'Y'});
     }
 
-    async deleteSpaceById(space_id: number){
-        const spaceById = await this.SpaceRepo.findOne({ where: { id: space_id }});
+    async deleteSpaceById(userid: number, deleteSpaceDto: DeleteSpaceDto){
+        const spaceById = await this.SpaceRepo.findOne({ where: { id: deleteSpaceDto.space_id, isDel: 'N'}});
 
         if(!spaceById){
             throw new NotFoundException('space is not exists');
@@ -223,14 +225,14 @@ export class SpaceService {
         try {
             // 유저 공간(userspace) 삭제
             //await queryRunner.manager.delete(UserSpaceEntity, { space_id: space_id});
-            await queryRunner.manager.update(UserSpaceEntity, { space_id: space_id}, {isDel: 'Y'});
+            await queryRunner.manager.update(UserSpaceEntity, { space_id: deleteSpaceDto.space_id}, {isDel: 'Y'});
             
             // 공간 역할(spacerole) 삭제
             //await queryRunner.manager.delete(SpaceRoleEntity, { space_id: space_id});
-            await queryRunner.manager.update(SpaceRoleEntity, { space_id: space_id}, {isDel: 'Y'});
+            await queryRunner.manager.update(SpaceRoleEntity, { space_id: deleteSpaceDto.space_id}, {isDel: 'Y'});
             // 공간 (space) 삭제
             //await queryRunner.manager.delete(SpaceEntity, { id: space_id});
-            await queryRunner.manager.update(SpaceEntity, { id: space_id}, {isDel: 'Y'});
+            await queryRunner.manager.update(SpaceEntity, { id: deleteSpaceDto.space_id}, {isDel: 'Y'});
 
             await queryRunner.commitTransaction();
             return ;

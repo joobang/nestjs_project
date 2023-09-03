@@ -4,6 +4,8 @@ import { CreateSpaceDto } from './dto/create-space.dto';
 import { SpaceService } from './space.service';
 import { CreateSpaceParamDto } from './dto/create-param.dto';
 import { JoinSpaceDto } from './dto/join-space.dto';
+import { DeleteRoleDto } from './dto/delete-role.dto';
+import { DeleteSpaceDto } from './dto/delete-space.dto';
 
 @Controller('space')
 export class SpaceController {
@@ -60,10 +62,10 @@ export class SpaceController {
     }
 
     @UseGuards(JwtServiceAuthGuard)
-    @Put('role/:id')
-    async deleteRoleById(@Req() req, @Param('id') role_id: number){
-        this.logger.log(`DELETE /space/role/${role_id} has been executed`);
-        const role = await this.spaceService.deleteRoleById(role_id);
+    @Delete('role')
+    async deleteRoleById(@Req() req, @Body() deleteRoleDto: DeleteRoleDto){
+        this.logger.log(`PUT /space/role has been executed`);
+        const role = await this.spaceService.deleteRoleById(req.user.id, deleteRoleDto);
         return Object.assign({
             data: role ,
             statusCode: 200,
@@ -72,10 +74,10 @@ export class SpaceController {
     }
 
     @UseGuards(JwtServiceAuthGuard)
-    @Put(':id')
-    async deleteSpaceById(@Req() req, @Param('id') space_id: number){
-        this.logger.log(`DELETE /space/${space_id} has been executed`);
-        const role = await this.spaceService.deleteSpaceById(space_id);
+    @Delete()
+    async deleteSpaceById(@Req() req, @Body() deleteSpaceDto: DeleteSpaceDto){
+        this.logger.log(`Delete /space has been executed`);
+        const role = await this.spaceService.deleteSpaceById(req.user.id, deleteSpaceDto);
         return Object.assign({
             data: role ,
             statusCode: 200,
