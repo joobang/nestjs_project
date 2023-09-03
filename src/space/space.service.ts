@@ -178,15 +178,18 @@ export class SpaceService {
         const role_type = spaceByCode.admin_code === joincode ? 'Admin' : 'Common';
 
         const spaceRole = await this.spaceRoleRepo.find({ where : {space_id: space_id, role_type: role_type}});
-        
-        let roleNames = spaceRole.map(data => data.role_name);
+        //console.log(spaceRole)
+        let roleNames = spaceRole.map(data => Object.assign({
+            id: data.id,
+            role_name: data.role_name
+        }));
         
         return {
             space_id: space_id,
             space_name: spaceByCode.space_name,
             space_log_path: spaceByCode.space_logo_path,
             role_type: role_type,
-            role_names: roleNames
+            roles: roleNames
         };
         
     }
