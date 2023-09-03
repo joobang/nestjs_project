@@ -100,10 +100,20 @@ export class SpaceService {
 
     async getMySpace(user_id:number){
         const userspace: Array<UserSpaceEntity> = await this.userSpaceRepository.find({ where: { user_id: user_id }, relations: ['space','role'] });
-        console.log(userspace);
-        const object = Object.assign({
-            
+        //console.log(userspace);
+        let spaces = [];
+        userspace.forEach((data) => {
+            const object = Object.assign({
+                space_name: data.space.space_name,
+                space_logo_path: data.space.space_logo_path,
+                owner_id: data.space.owner_id,
+                join_code: data.role.role_type === 'Admin' ? data.space.admin_code : data.space.common_code,
+                role_name: data.role.role_name
+            });
+            spaces.push(object);
+
         })
-        return userspace;
+        
+        return spaces;
     }
 }

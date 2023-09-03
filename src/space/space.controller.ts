@@ -23,7 +23,7 @@ export class SpaceController {
         this.logger.log(`GET /user/myprofile has been executed`);
         const space = await this.spaceService.getMySpace(req.user.id);
         return Object.assign({
-            data: { ...space },
+            data: space ,
             statusCode: 200,
             statusMsg: 'get my space'
         })
