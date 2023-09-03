@@ -45,18 +45,5 @@ export class UserEntity {
   @OneToMany(()=> UserSpaceEntity, userSpace => userSpace.user)
   userSpace: UserSpaceEntity[];
 
-  toResponseObject(): any {
-    const { id, email, firstname, lastname, profile_path, userSpace} = this;
-    const responseObject = {
-      id,
-      email,
-      firstname,
-      lastname,
-      profile_path,
-      userSpace: userSpace ? userSpace.map(rp => rp.user) : []
-    };
-    return responseObject;
-  }
-
 }
   

@@ -1,3 +1,4 @@
+import { SpaceEntity } from 'src/space/space.entity';
 import { UserEntity } from 'src/user/user.entity';
 import {
     Entity,
@@ -38,6 +39,9 @@ export class UserSpaceEntity {
 
   @ManyToOne(()=> UserEntity, userEntity=> userEntity.userSpace)
   user: UserEntity;
+
+  @ManyToOne(()=> SpaceEntity, spaceEntity=> spaceEntity.userSpace)
+  space: SpaceEntity;
 
 }
   

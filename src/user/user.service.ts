@@ -45,7 +45,13 @@ export class UserService {
 
     async getMyprofile(id: number){
         const user: UserEntity = await this.UserRepo.findOne({ id });
-        return user.toResponseObject();
+        return {
+            id: user.id,
+            email: user.email,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            profile_path: user.profile_path
+        }
     }
 
     async putMyprofile(id: number, updateUserDto: UpdateUserDto){
