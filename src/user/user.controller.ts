@@ -62,9 +62,12 @@ export class UserController {
         
         const { password_confirm, ...body} = updateParmDto;
         const updateUserDto: UpdateUserDto = body;
-
+        
+        if('email' in updateParmDto){
+            throw new ForbiddenException('Email cannot be changed.');
+        }
         if(Object.keys(updateParmDto).length === 0){
-            throw new ForbiddenException('You need to update at least one.')
+            throw new ForbiddenException('You need to update at least one.');
         }
 
         // 비밀번호와 비밀번호 확인이 둘 다 제공되었을 때만 비밀번호를 수정하고
