@@ -6,11 +6,13 @@ import { CreateSpaceDto } from './dto/create-space.dto';
 import { CreateSpaceParamDto } from './dto/create-param.dto';
 import { UserSpaceService } from 'src/userspace/userspace.service';
 import { SpaceRoleService } from 'src/spacerole/spacerole.service';
+import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
 
 @Injectable()
 export class SpaceService {
     constructor(
         @InjectRepository(SpaceEntity) private readonly SpaceRepo: Repository<SpaceEntity>,
+        @InjectRepository(UserSpaceEntity) private userSpaceRepository: Repository<UserSpaceEntity>,
         private readonly connection: Connection,
         private readonly userSpaceService: UserSpaceService,
         private readonly spaceRoleService: SpaceRoleService
@@ -94,5 +96,14 @@ export class SpaceService {
         } finally {
             await queryRunner.release();
         }
+    }
+
+    async getMySpace(user_id:number){
+        const userspace: Array<UserSpaceEntity> = await this.userSpaceRepository.find({ where: { user_id: user_id }, relations: ['space'] });
+        console.log(userspace);
+        const object = Object.assign({
+            
+        })
+        return userspace;
     }
 }

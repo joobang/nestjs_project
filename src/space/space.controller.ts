@@ -1,4 +1,4 @@
-import { Body, Controller, Logger, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { SpaceService } from './space.service';
@@ -13,7 +13,20 @@ export class SpaceController {
     @UsePipes(ValidationPipe)
     @Post()
     async createSpace(@Req() req, @Body() createSpaceParamDto: CreateSpaceParamDto){
-        
+        this.logger.log(`POST /space has been executed`);
         return await this.spaceService.createSpace(req.user.id, createSpaceParamDto);
     }
+
+    @UseGuards(JwtServiceAuthGuard)
+    @Get('myspace')
+    async getMyprofile(@Req() req){
+        this.logger.log(`GET /user/myprofile has been executed`);
+        const space = await this.spaceService.getMySpace(req.user.id);
+        return Object.assign({
+            data: { ...space },
+            statusCode: 200,
+            statusMsg: 'get my space'
+        })
+    }
+
 }

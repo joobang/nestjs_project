@@ -44,8 +44,8 @@ export class UserService {
     }
 
     async getMyprofile(id: number){
-        const user: UserEntity = await this.UserRepo.findOne(id,{relations: ['userSpace']});
-        console.log(user);
+        const user: UserEntity = await this.UserRepo.findOne({id});
+        //console.log(user);
         return {
             id: user.id,
             email: user.email,
