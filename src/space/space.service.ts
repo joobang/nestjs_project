@@ -36,7 +36,7 @@ export class SpaceService {
         
         while(!isUnique) {
             const randomCode = this.createRandomCode(8);
-            const adminCodeExist = await queryRunner.manager.findOne(SpaceEntity, {admin_code: randomCode});
+            const adminCodeExist = await queryRunner.manager.findOne(SpaceEntity, {where: [{common_code: randomCode},{admin_code: randomCode}]});
             if(!adminCodeExist){
                 isUnique = true;
                 admin_code = randomCode;
@@ -46,7 +46,7 @@ export class SpaceService {
         isUnique = false;
         while(!isUnique) {
             const randomCode = this.createRandomCode(8);
-            const adminCodeExist = await queryRunner.manager.findOne(SpaceEntity, {common_code: randomCode});
+            const adminCodeExist = await queryRunner.manager.findOne(SpaceEntity, {where: [{common_code: randomCode},{admin_code: randomCode}]});
             if(!adminCodeExist){
                 isUnique = true;
                 common_code = randomCode;
@@ -130,7 +130,8 @@ export class SpaceService {
                 throw new NotFoundException('joincode not exists');
             }
             console.log(space);
-            
+            // userspace, spacerole 등록
+
             await queryRunner.commitTransaction();
             return ;
         } catch (error) {
