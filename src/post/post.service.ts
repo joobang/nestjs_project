@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { PostEntity } from './post.entity';
@@ -17,7 +17,20 @@ export class PostService {
     async createPost(user_id: number, createPostDto: CreatePostDto){
         const space_id = createPostDto.space_id;
         const userspace = await this.userSpaceService.getUserSpace(user_id, space_id)
-        //console.log(createPostDto);
+        console.log(userspace);
+        // 참여자 인데 공지인 경우
+        if((createPostDto.post_type === 'Notice') && (userspace.role.role_type === 'Common')){
+            throw new BadRequestException('Common user cannot create Notice.');
+        }
+
+        if((createPostDto.isAno === 'Y') && (createPostDto.post_type === 'Notice')){
+            throw new BadRequestException('Notices cannot be posted anonymously.');
+        }
+
+        if((createPostDto.isAno === 'Y') && (userspace.role.role_type === 'Admin')){
+            throw new BadRequestException('Admin cannot post anonymously.');
+        }
+
         const filepath = JSON.stringify(createPostDto.file_path);
         const imagepath = JSON.stringify(createPostDto.image_path);
         await this.PostRepo.save({
