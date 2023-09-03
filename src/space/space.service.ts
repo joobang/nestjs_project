@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, QueryRunner, Repository } from 'typeorm';
 import { SpaceEntity } from './space.entity';
@@ -187,5 +187,20 @@ export class SpaceService {
             role_names: roleNames
         };
         
+    }
+
+    async deleteRoleById(role_id: number){
+        const spaceRoleById = await this.spaceRoleRepo.findOne({ where: { id: role_id }});
+
+        if(!spaceRoleById){
+            throw new NotFoundException('role is not exists');
+        }
+
+        const userSpace = await this.userSpaceRepo.findOne({ where: { space_role_id: role_id }});
+
+        if(userSpace){
+            throw new BadRequestException('role is in use.');
+        }
+        await this.spaceRoleRepo.delete({id: role_id});
     }
 }
