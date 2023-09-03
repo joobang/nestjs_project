@@ -55,7 +55,16 @@ export class SpaceService {
         return createSpaceDto;
 
     }
-
+    // 공간 등록 API
+    /*
+        1. SPACE 테이블 등록작업
+            1.1 관리자, 참여자 코드 난수 생성 및 중복 확인 로직
+            1.2 공간 저장
+        2. SPACEROLE 테이블 등록작업
+            2.1 관리자명 목록, 참여자명 목록 별로 등록
+        3. USERSPACE 테이블 등록작업
+            3.1 공간 생성(owner)자 id, spacerole id, space id 등록
+    */
     async createSpace(id: number, createSpaceParamDto: CreateSpaceParamDto) {
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
@@ -73,7 +82,8 @@ export class SpaceService {
             const space = await queryRunner.manager.save(SpaceEntity, createSpaceDto);
             
             const space_id = space.id;
-            await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array);
+            const spaceRole_id = await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array, owner_role);
+            await this.userSpaceService.createUserSpace(queryRunner, space_id, spaceRole_id);
 
             await queryRunner.commitTransaction();
             return ;
