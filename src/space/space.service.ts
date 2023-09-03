@@ -33,7 +33,7 @@ export class SpaceService {
             const space = await queryRunner.manager.save(SpaceEntity, createSpaceDto);
             
             const space_id = space.id;
-            // await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array);
+            await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array);
 
             await queryRunner.commitTransaction();
             return ;

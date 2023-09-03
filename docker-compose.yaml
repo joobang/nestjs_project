@@ -2,7 +2,7 @@ version: '3'
 services:
   mysql_dev:
     image: mysql:8.0
-    container_name: mysql_dev
+    container_name: dojoohwan_mysql_dev
     ports:
       - 3308:3306
     environment:
@@ -10,12 +10,13 @@ services:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_USER: 'admin'
       MYSQL_PASSWORD: 'admin'
+      TZ: 'Asia/Seoul'
     volumes:
       - ./init_db:/docker-entrypoint-initdb.d
 
   mysql_prod:
     image: mysql:8.0
-    container_name: mysql_prod
+    container_name: dojoohwan_mysql_prod
     ports:
       - 3307:3306
     environment:
@@ -23,5 +24,6 @@ services:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_USER: 'admin'
       MYSQL_PASSWORD: 'admin'
+      TZ: 'Asia/Seoul'
     volumes:
       - ./init_db:/docker-entrypoint-initdb.d
