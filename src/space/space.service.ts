@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, QueryRunner, Repository } from 'typeorm';
 import { SpaceEntity } from './space.entity';
@@ -85,7 +85,7 @@ export class SpaceService {
             const space = await queryRunner.manager.save(SpaceEntity, createSpaceDto);
             // 공간역할 등록
             const space_id = space.id;
-            const spaceRole_id = await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array, owner_role);
+            const spaceRole_id = await this.spaceRoleService.createSpaceRoleBySpace(queryRunner, space_id, admin_array, common_array, owner_role);
             // 공간 유저간 중간 테이블 등록
             await this.userSpaceService.createUserSpace(queryRunner, id, space_id, spaceRole_id);
 
@@ -118,19 +118,30 @@ export class SpaceService {
         return spaces;
     }
 
-    async joinSapce(joinSpaceDto: JoinSpaceDto) {
+    async joinSapce(userid: number, joinSpaceDto: JoinSpaceDto) {
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
         const joincode = joinSpaceDto.joincode;
         
         await queryRunner.startTransaction();
         try {
-            const space = await queryRunner.manager.findOne(SpaceEntity, { where: [{ admin_code: joincode }, {common_code: joincode}]});
-            if(!space){
+            const spaceByCode = await queryRunner.manager.findOne(SpaceEntity, { where: [{ admin_code: joincode }, {common_code: joincode}]});
+            if(!spaceByCode){
                 throw new NotFoundException('joincode not exists');
             }
-            console.log(space);
-            // userspace, spacerole 등록
+            console.log(spaceByCode);
+            
+            const space_id = spaceByCode.id;
+            // 사용자는 한 공간에 하나의 역할을 가지므로
+            const spaceByuserId = await queryRunner.manager.findOne(UserSpaceEntity, { where: { space_id: space_id, user_id: userid }});
+            if(spaceByuserId){
+                throw new ConflictException('Already join in this space.');
+            }
+            
+            const spaceRole_id = await this.spaceRoleService.createSpaceRoleByJoin(queryRunner, space_id);
+            // 공간 유저간 중간 테이블 등록
+            //await this.userSpaceService.createUserSpace(queryRunner, userid, space_id, spaceRole_id);
+
 
             await queryRunner.commitTransaction();
             return ;

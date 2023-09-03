@@ -34,12 +34,12 @@ export class SpaceController {
     @UsePipes(ValidationPipe)
     @Post('join')
     async joinSpace(@Req() req, @Body() joinSpaceDto: JoinSpaceDto){
-        this.logger.log(`GET /user/myprofile has been executed`);
-        const space = await this.spaceService.joinSapce(joinSpaceDto);
+        this.logger.log(`POST /space/join has been executed`);
+        const space = await this.spaceService.joinSapce(req.user.id, joinSpaceDto);
         return Object.assign({
             data: space ,
             statusCode: 200,
-            statusMsg: 'get my space'
+            statusMsg: 'join space'
         })
     }
 

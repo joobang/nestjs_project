@@ -11,7 +11,7 @@ export class SpaceRoleService {
         private readonly SpaceRoleRepo: Repository<SpaceRoleEntity>
     ){}
 
-    async createSpaceRole(queryRunner: QueryRunner, space_id: number, admin_array: Array<string>, common_array: Array<string>, owner_role :string){
+    async createSpaceRoleBySpace(queryRunner: QueryRunner, space_id: number, admin_array: Array<string>, common_array: Array<string>, owner_role :string){
         let spaceRoleid = 0;
         for(let i = 0; i<admin_array.length; i++){
             const createSpaceRoleDto = new CreateSpaceRoleDto();
@@ -35,6 +35,16 @@ export class SpaceRoleService {
         }
 
         return spaceRoleid;
+    }
+
+    async createSpaceRoleByJoin(queryRunner: QueryRunner, space_id: number){
+        let spaceRole_id = 0;
+        const createSpaceRoleDto = new CreateSpaceRoleDto();
+        //createSpaceRoleDto.space_id = String(space_id);
+        // createSpaceRoleDto.role_name = admin_array[i];
+        // createSpaceRoleDto.role_type = 'Admin'
+        
+        return spaceRole_id;
     }
     
 }
