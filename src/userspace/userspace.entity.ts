@@ -1,4 +1,5 @@
 import { SpaceEntity } from 'src/space/space.entity';
+import { SpaceRoleEntity } from 'src/spacerole/spacerole.entity';
 import { UserEntity } from 'src/user/user.entity';
 import {
     Entity,
@@ -43,6 +44,10 @@ export class UserSpaceEntity {
   @ManyToOne(()=> SpaceEntity, spaceEntity=> spaceEntity.userSpace)
   @JoinColumn({ name: 'space_id', referencedColumnName: 'id' }) 
   space: SpaceEntity;
+
+  @ManyToOne(()=> SpaceRoleEntity, spaceRoleEntity=> spaceRoleEntity.userSpace)
+  @JoinColumn({ name: 'space_role_id', referencedColumnName: 'id' }) 
+  role: SpaceRoleEntity;
 
 }
   

@@ -1,9 +1,11 @@
+import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
 import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToMany,
   } from 'typeorm';
 
 @Entity('SPACEROLE')
@@ -33,6 +35,9 @@ export class SpaceRoleEntity {
       onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToMany(()=> UserSpaceEntity, userSpaceEntity => userSpaceEntity.user)
+  userSpace: UserSpaceEntity[];
 
 }
   

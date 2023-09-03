@@ -99,7 +99,7 @@ export class SpaceService {
     }
 
     async getMySpace(user_id:number){
-        const userspace: Array<UserSpaceEntity> = await this.userSpaceRepository.find({ where: { user_id: user_id }, relations: ['space'] });
+        const userspace: Array<UserSpaceEntity> = await this.userSpaceRepository.find({ where: { user_id: user_id }, relations: ['space','role'] });
         console.log(userspace);
         const object = Object.assign({
             
