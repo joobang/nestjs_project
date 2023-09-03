@@ -13,9 +13,9 @@ export class UserSpaceService {
 
     async createUserSpace(queryRunner: QueryRunner, user_id: number, space_id: number, role_id: number) {
         const createUserSpaceDto = new CreateUserSpaceDto();
-        createUserSpaceDto.user_id = String(user_id);
-        createUserSpaceDto.space_id = String(space_id);
-        createUserSpaceDto.space_role_id = String(role_id);
+        createUserSpaceDto.user_id = user_id;
+        createUserSpaceDto.space_id = space_id;
+        createUserSpaceDto.space_role_id = role_id;
         
         await queryRunner.manager.save(UserSpaceEntity, createUserSpaceDto);
         

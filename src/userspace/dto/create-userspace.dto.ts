@@ -1,19 +1,16 @@
 
-import { IsEmail, IsOptional, IsString, Length, Matches } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString, Length, Matches } from 'class-validator';
 
 export class CreateUserSpaceDto {
     
-    @IsString()
-    @Length(1, 20)
-    user_id: string;
+    @IsNumber()
+    user_id: number;
 
-    @IsString()
-    @Length(1, 20)
-    space_id: string;
+    @IsNumber()
+    space_id: number;
 
-    @IsString()
-    @Length(1, 20)
-    space_role_id: string;
+    @IsNumber()
+    space_role_id: number;
 
 
 }

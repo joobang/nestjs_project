@@ -76,13 +76,14 @@ export class SpaceService {
             createSpaceDto.space_name = body.space_name;
             createSpaceDto.owner_id = String(id);
             createSpaceDto.space_logo_path = body.space_logo_path;
-            
+            // 관리자, 참여자 코드 생성 및 중복 검사
             await this.checkCode(queryRunner, createSpaceDto);
-            //console.log(createSpaceDto);
+            // 공간 등록
             const space = await queryRunner.manager.save(SpaceEntity, createSpaceDto);
-            
+            // 공간역할 등록
             const space_id = space.id;
             const spaceRole_id = await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array, owner_role);
+            // 공간 유저간 중간 테이블 등록
             await this.userSpaceService.createUserSpace(queryRunner, id, space_id, spaceRole_id);
 
             await queryRunner.commitTransaction();

@@ -42,7 +42,7 @@ export class UserEntity {
   })
   updated_at: Date;
 
-  @OneToMany(()=> UserSpaceEntity, userSpace => userSpace.user)
+  @OneToMany(()=> UserSpaceEntity, userSpaceEntity => userSpaceEntity.user)
   userSpace: UserSpaceEntity[];
 
 }

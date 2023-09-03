@@ -30,10 +30,6 @@ CREATE TABLE SPACEROLE (
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
 CREATE TABLE USERSPACE (
-    id  SERIAL PRIMARY KEY,
-    user_id  VARCHAR(20),
-    space_id  VARCHAR(20),
-    space_role_id  VARCHAR(20),
     isDel VARCHAR(5),
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp

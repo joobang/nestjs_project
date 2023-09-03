@@ -7,21 +7,20 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne,
+    JoinColumn,
+    PrimaryColumn,
   } from 'typeorm';
 
 @Entity('USERSPACE')
 export class UserSpaceEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-  
-  @Column({type: 'varchar', length: 20, nullable: false })
-  user_id: string;
+  @PrimaryColumn()
+  user_id: number;
 
-  @Column({type: 'varchar', length: 20, nullable: false })
-  space_id: string;
+  @PrimaryColumn()
+  space_id: number;
 
-  @Column({type: 'varchar', length: 20, nullable: false })
-  space_role_id: string;
+  @Column({type: 'int'})
+  space_role_id: number;
     
   @Column({type: 'varchar', length: 5, default: 'N' })
   isDel: string;
@@ -38,9 +37,11 @@ export class UserSpaceEntity {
   updated_at: Date;
 
   @ManyToOne(()=> UserEntity, userEntity=> userEntity.userSpace)
+  @JoinColumn({ name: 'user_id',referencedColumnName: 'id' }) 
   user: UserEntity;
 
   @ManyToOne(()=> SpaceEntity, spaceEntity=> spaceEntity.userSpace)
+  @JoinColumn({ name: 'space_id', referencedColumnName: 'id' }) 
   space: SpaceEntity;
 
 }
