@@ -1,9 +1,5 @@
 import { ConfigService } from "@nestjs/config";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { UserEntity  } from "src/user/user.entity";
-import { SpaceEntity } from "src/space/space.entity"; 
-import { UserSpaceEntity } from "src/userSpace/userspace.entity";
-
 export function TypeormConfig(configService: ConfigService){
     const env = configService.get('NODE_ENV');
     if(!['dev', 'prod'].includes(env)) {
@@ -20,11 +16,7 @@ export function TypeormConfig(configService: ConfigService){
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [
-            UserEntity,
-            SpaceEntity,
-            UserSpaceEntity       
-        ],
+        autoLoadEntities: true,
         synchronize: env === 'prod' ? false : synchronize,
         logging: logging,
         timezone: 'Asia/Seoul'

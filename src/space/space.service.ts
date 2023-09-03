@@ -4,13 +4,16 @@ import { Connection, Repository } from 'typeorm';
 import { SpaceEntity } from './space.entity';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { CreateSpaceParamDto } from './dto/create-param.dto';
+import { UserSpaceService } from 'src/userspace/userspace.service';
+import { SpaceRoleService } from 'src/spacerole/spacerole.service';
 
 @Injectable()
 export class SpaceService {
     constructor(
         @InjectRepository(SpaceEntity) private readonly SpaceRepo: Repository<SpaceEntity>,
         private readonly connection: Connection,
-        
+        private readonly userSpaceService: UserSpaceService,
+        private readonly spaceRoleService: SpaceRoleService
     ){}
 
     async createSpace(id: number, createSpaceParamDto: CreateSpaceParamDto) {

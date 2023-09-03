@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { SpaceController } from './space/space.controller';
 import { SpaceService } from './space/space.service';
 import { SpaceModule } from './space/space.module';
+import { UserSpaceModule } from './userspace/userspace.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { SpaceModule } from './space/space.module';
     UserModule,
     AuthModule,
     SpaceModule,
+    UserSpaceModule
   ],
   controllers: [AppController],
   providers: [AppService],
