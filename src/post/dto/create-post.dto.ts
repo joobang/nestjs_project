@@ -20,5 +20,11 @@ export class CreatePostDto {
     @IsString()
     @Length(1, 5)
     isAno: string;
+
+    @IsArray()
+    file_path: Array<string>;
+
+    @IsArray()
+    image_path: Array<string>;
 }
   

@@ -17,7 +17,18 @@ export class PostService {
     async createPost(user_id: number, createPostDto: CreatePostDto){
         const space_id = createPostDto.space_id;
         const userspace = await this.userSpaceService.getUserSpace(user_id, space_id)
-        
-        await this.PostRepo.save({user_id: user_id,...createPostDto});
+        //console.log(createPostDto);
+        const filepath = JSON.stringify(createPostDto.file_path);
+        const imagepath = JSON.stringify(createPostDto.image_path);
+        await this.PostRepo.save({
+            user_id: user_id,
+            space_id: createPostDto.space_id,
+            title: createPostDto.title,
+            content: createPostDto.content,
+            post_type: createPostDto.post_type,
+            isAno: createPostDto.isAno,
+            file_path: filepath,
+            image_path: imagepath
+        });
     }
 }

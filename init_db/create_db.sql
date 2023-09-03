@@ -44,6 +44,8 @@ CREATE TABLE POST (
     title VARCHAR(255),
     content TEXT,
     post_type VARCHAR(20),
+    file_path VARCHAR(255),
+    image_path VARCHAR(255),
     isAno VARCHAR(5),
     isDel VARCHAR(5),
     created_at timestamp not null default CURRENT_TIMESTAMP,

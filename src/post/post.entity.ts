@@ -27,6 +27,12 @@ export class PostEntity {
   @Column({type: 'text', nullable: false})
   content: string;
 
+  @Column({type: 'varchar', length: 255, nullable: true})
+  file_path: string;
+  
+  @Column({type: 'varchar', length: 255, nullable: true})
+  image_path: string;
+
   @Column({type: 'varchar', length: 20, nullable: false })
   post_type: string;
 
