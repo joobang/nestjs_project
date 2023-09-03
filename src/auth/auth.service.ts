@@ -5,13 +5,15 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Payload } from './security/payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
-        private jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly configService: ConfigService
     ){
         //console.log(this.jwtService);
     }
@@ -32,9 +34,14 @@ export class AuthService {
         return user;
     }
 
-    async loginServiceUser(payload: Payload){
-        return {
-            accessToken: this.jwtService.sign(payload),
-        };
+    async generateAccessToekn(payload: Payload){
+        return this.jwtService.signAsync(payload);
+    }
+
+    async generateRefreshToekn(payload: Payload){
+        return this.jwtService.signAsync({id: payload.id}, {
+            secret: this.configService.get<string>('SECRET_KEY'),
+            expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION_TIME'),
+        });
     }
 }

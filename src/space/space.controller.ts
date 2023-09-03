@@ -15,7 +15,11 @@ export class SpaceController {
     @Post()
     async createSpace(@Req() req, @Body() createSpaceParamDto: CreateSpaceParamDto){
         this.logger.log(`POST /space has been executed`);
-        return await this.spaceService.createSpace(req.user.id, createSpaceParamDto);
+        await this.spaceService.createSpace(req.user.id, createSpaceParamDto);
+        return Object.assign({
+            statusCode: 200,
+            statusMsg: 'create space'
+        })
     }
 
     @UseGuards(JwtServiceAuthGuard)
