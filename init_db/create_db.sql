@@ -14,8 +14,8 @@ CREATE TABLE SPACE (
     space_name VARCHAR(100),
     space_logo_path VARCHAR(255),
     owner_id VARCHAR(20),
-    admin_code  VARCHAR(20),
-    common_code  VARCHAR(20),
+    admin_code  VARCHAR(20) unique,
+    common_code  VARCHAR(20) unique,
     isDel VARCHAR(5),
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
@@ -40,9 +40,9 @@ CREATE TABLE USERSPACE (
 CREATE TABLE POST (
     id  SERIAL PRIMARY KEY,
     user_id  VARCHAR(20),
-    space_id  VARCHAR(20),
+    space_id  INT,
     title VARCHAR(255),
-    content VARCHAR(255),
+    content TEXT,
     post_type VARCHAR(20),
     isAno VARCHAR(5),
     isDel VARCHAR(5),
@@ -52,7 +52,7 @@ CREATE TABLE POST (
 CREATE TABLE CHAT (
     id  SERIAL PRIMARY KEY,
     user_id  VARCHAR(20),
-    post_id  VARCHAR(20),
+    post_id  INT,
     chat_id VARCHAR(20),
     content VARCHAR(255),
     isAno VARCHAR(5),

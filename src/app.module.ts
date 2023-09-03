@@ -10,6 +10,7 @@ import { SpaceController } from './space/space.controller';
 import { SpaceService } from './space/space.service';
 import { SpaceModule } from './space/space.module';
 import { UserSpaceModule } from './userspace/userspace.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { UserSpaceModule } from './userspace/userspace.module';
     UserModule,
     AuthModule,
     SpaceModule,
-    UserSpaceModule
+    UserSpaceModule,
+    PostModule
   ],
   controllers: [AppController],
   providers: [AppService],

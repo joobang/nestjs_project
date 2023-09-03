@@ -1,3 +1,4 @@
+import { PostEntity } from 'src/post/post.entity';
 import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
 import {
     Entity,
@@ -44,6 +45,9 @@ export class SpaceEntity {
 
   @OneToMany(()=> UserSpaceEntity, userSpaceEntity => userSpaceEntity.space)
   userSpace: UserSpaceEntity[];
+
+  @OneToMany(()=> PostEntity, postEntity => postEntity.space)
+  post: PostEntity[];
 
 }
   

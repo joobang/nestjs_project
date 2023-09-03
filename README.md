@@ -33,16 +33,17 @@ $ npm run start:prod
 
 ## ERD
 
-![Alt text](image-1.png)
+![Alt text](image-2.png)
 
 ## 디렉토리 구조
 ```
 📦src
- ┣ 📂auth                           -> jwt 토큰, 로그인 검증 관련
+ ┣ 📂auth                   -> jwt 토큰, 로그인, 권한 검증 관련
  ┃ ┣ 📂guards                       
  ┃ ┃ ┣ 📜jwt-auth.guard.ts
  ┃ ┃ ┣ 📜jwt-service.guard.ts
  ┃ ┃ ┗ 📜local-service.guard.ts
+ ┃ ┃ ┗ 📜role-service.guard.ts
  ┃ ┣ 📂security
  ┃ ┃ ┗ 📜payload.interface.ts
  ┃ ┣ 📂strategies                   
