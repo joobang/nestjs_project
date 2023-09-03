@@ -1,9 +1,11 @@
+import { UserEntity } from 'src/user/user.entity';
 import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    ManyToOne,
   } from 'typeorm';
 
 @Entity('USERSPACE')
@@ -33,6 +35,9 @@ export class UserSpaceEntity {
       onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @ManyToOne(()=> UserEntity, userEntity=> userEntity.userSpace)
+  user: UserEntity;
 
 }
   

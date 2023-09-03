@@ -1,9 +1,11 @@
+import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
 import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    OneToMany,
   } from 'typeorm';
 
 @Entity('USERS')
@@ -39,6 +41,22 @@ export class UserEntity {
       onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToMany(()=> UserSpaceEntity, userSpace => userSpace.user)
+  userSpace: UserSpaceEntity[];
+
+  toResponseObject(): any {
+    const { id, email, firstname, lastname, profile_path, userSpace} = this;
+    const responseObject = {
+      id,
+      email,
+      firstname,
+      lastname,
+      profile_path,
+      userSpace: userSpace ? userSpace.map(rp => rp.user) : []
+    };
+    return responseObject;
+  }
 
 }
   
