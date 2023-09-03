@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
@@ -32,6 +32,9 @@ export class UserService {
 
     async getUserById(id: number){
         const user: UserEntity = await this.UserRepo.findOne({ id });
+        if(!user){
+            throw new NotFoundException('User not exists');
+        }
         return {
             id: user.id,
             firstname: user.firstname,
