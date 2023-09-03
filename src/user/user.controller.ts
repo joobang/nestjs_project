@@ -15,14 +15,24 @@ export class UserController {
     @Get('myprofile')
     async getMyprofile(@Req() req){
         this.logger.log(`GET /user/myprofile has been executed`);
-        return await this.userService.getMyprofile(req.user.id);
+        const profile =await this.userService.getMyprofile(req.user.id);
+        return Object.assign({
+            data: { ...profile },
+            statusCode: 200,
+            statusMsg: 'get myprofile'
+        })
     }
 
     @UseGuards(JwtServiceAuthGuard)
     @Get(':id')
     async getUserById(@Param('id', new ParseIntPipe()) id: number) {
         this.logger.log(`GET /user/${id} has been executed`);
-        return await this.userService.getUserById(id);
+        const getUserById = await this.userService.getUserById(id);
+        return Object.assign({
+            data: { ...getUserById },
+            statusCode: 200,
+            statusMsg: 'get UserById'
+        })
     }
 
  
@@ -34,7 +44,11 @@ export class UserController {
         const hashPassword = await this.userService.hashPassword(createUserDto.password);
         createUserDto.password = hashPassword;
         //console.log('Received values:', userEntity);
-        return await this.userService.createUser(createUserDto);
+        await this.userService.createUser(createUserDto);
+        return Object.assign({
+            statusCode: 200,
+            statusMsg: 'User register success'
+        })
     }
 
     @Put('myprofile')
@@ -64,7 +78,12 @@ export class UserController {
             updateUserDto.password = hashPassword
         }
         
-        return await this.userService.putMyprofile(req.user.id, updateUserDto);
+        const updateUser = await this.userService.putMyprofile(req.user.id, updateUserDto);
+        return Object.assign({
+            data: { ...updateUser},
+            statusCode: 200,
+            statusMsg: 'User update success'
+        })
     }
 
 
