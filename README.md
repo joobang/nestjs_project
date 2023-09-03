@@ -232,13 +232,27 @@ $ npm run start:prod
 공간 권한 id로 isDel 값을 'Y'로 수정한다. (soft delete)
 
 **Endpoint:**  
-`PUT /space/role/:id`
+`DELETE /space/role`
+
+**Request Body:**
+```json
+{
+    "space_id" : 1,
+    "role_id" : 3
+}
+```
 
 ------
 ### 공간 삭제
 공간 id로 isDel 값을 'Y'로 수정한다. (soft delete)
 
 **Endpoint:**  
-`PUT /space/:id`
+`DELETE /space`
 
+**Request Body:**
+```json
+{
+    "space_id" : 1
+}
+```
 ------

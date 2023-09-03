@@ -6,6 +6,7 @@ import { CreateSpaceParamDto } from './dto/create-param.dto';
 import { JoinSpaceDto } from './dto/join-space.dto';
 import { DeleteRoleDto } from './dto/delete-role.dto';
 import { DeleteSpaceDto } from './dto/delete-space.dto';
+import { RolesGuard } from 'src/auth/guards/role-service.guard';
 
 @Controller('space')
 export class SpaceController {
@@ -61,7 +62,7 @@ export class SpaceController {
         })
     }
 
-    @UseGuards(JwtServiceAuthGuard)
+    @UseGuards(JwtServiceAuthGuard, RolesGuard)
     @Delete('role')
     async deleteRoleById(@Req() req, @Body() deleteRoleDto: DeleteRoleDto){
         this.logger.log(`PUT /space/role has been executed`);
@@ -73,7 +74,7 @@ export class SpaceController {
         })
     }
 
-    @UseGuards(JwtServiceAuthGuard)
+    @UseGuards(JwtServiceAuthGuard, RolesGuard)
     @Delete()
     async deleteSpaceById(@Req() req, @Body() deleteSpaceDto: DeleteSpaceDto){
         this.logger.log(`Delete /space has been executed`);

@@ -12,13 +12,14 @@ export class RolesGuard implements CanActivate {
   ): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const user_id = request.user.id; 
-    const param_id = +request.params.id; 
+    const space_id = request.body.space_id;
 
-    // const userSpace = await this.userSpaceService.findUserSpace(userId, spaceId);
+    const userSpace = await this.userSpaceService.getUserSpace(user_id, space_id);
 
-    // if (userSpace && userSpace.space_role_id === '관리자_아이디') {
-    //   return true;
-    // }
+    if(userSpace && userSpace.role.role_type === 'Admin' ){
+        return true;
+    }
+    
 
     return false;
   }

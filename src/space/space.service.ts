@@ -208,6 +208,9 @@ export class SpaceService {
         if(userSpace){
             throw new BadRequestException('role is in use.');
         }
+
+        const userSpaceByids = await this.userSpaceRepo.findOne({ where: { space_role_id: deleteRoleDto.role_id,  isDel: 'N' }});
+
         await this.spaceRoleRepo.update({id: deleteRoleDto.role_id}, {isDel: 'Y'});
     }
 
