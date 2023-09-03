@@ -83,7 +83,7 @@ export class SpaceService {
             
             const space_id = space.id;
             const spaceRole_id = await this.spaceRoleService.createSpaceRole(queryRunner, space_id, admin_array, common_array, owner_role);
-            await this.userSpaceService.createUserSpace(queryRunner, space_id, spaceRole_id);
+            await this.userSpaceService.createUserSpace(queryRunner, id, space_id, spaceRole_id);
 
             await queryRunner.commitTransaction();
             return ;
