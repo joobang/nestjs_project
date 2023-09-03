@@ -56,6 +56,19 @@ $ npm run start:prod
  ┃ ┗ 📜auth.service.ts
  ┣ 📂config                         -> config 관련
  ┃ ┗ 📜typeorm.config.ts
+ ┣ 📂chat                           -> 댓글(chat) 관련 
+ ┃ ┣ 📂dto
+ ┃ ┣ 📜chat.controller.ts
+ ┃ ┣ 📜chat.entity.ts
+ ┃ ┣ 📜chat.module.ts
+ ┃ ┗ 📜chat.service.ts
+ ┣ 📂post                           -> 게시글(post) 관련 
+ ┃ ┣ 📂dto
+ ┃ ┃ ┗ 📜create-post.dto.ts
+ ┃ ┣ 📜post.controller.ts
+ ┃ ┣ 📜post.entity.ts
+ ┃ ┣ 📜post.module.ts
+ ┃ ┗ 📜post.service.ts
  ┣ 📂space                          -> 공간(space) 관련 
  ┃ ┣ 📂dto
  ┃ ┃ ┣ 📜create-param.dto.ts
@@ -116,6 +129,9 @@ $ npm run start:prod
     - [내공간조회](#get-user)
     - [역할삭제](#get-user)
     - [공간삭제](#get-user)
+4. [Post API](#space-apis)
+    - [게시글생성](#create-user)
+    - [게시글조회](#get-user)
 
 ---
 
@@ -257,3 +273,36 @@ $ npm run start:prod
 }
 ```
 ------
+## Post API
+
+### 게시글 생성
+현재 로그인 한 유저가 해당 공간에 속해있는지 확인하고
+
+공간에 속해있는 참여자 혹은 관리자라면 게시글 작성을 할 수 있다.
+
+**Endpoint:**  
+`POST /post`
+
+**Request Body:**
+```json
+{
+    "space_id" :3,
+    "title": "안녕하세요 반갑습니다.44444",
+    "content": "dddddd",
+    "post_type" : "Notice",
+    "isAno" : "N",
+    "file_path" : ["11.txt","22.txt"],
+    "image_path" : ["123.png"]
+}
+```
+--------
+
+### 게시글 조회
+현재 로그인 한 유저가 해당 공간에 속해있는지 확인하고
+
+공간에 속해있는 참여자 혹은 관리자라면 게시글을 조회한다.
+
+**Endpoint:**  
+`GET /post/:id`
+
+--------
