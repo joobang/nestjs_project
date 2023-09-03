@@ -24,6 +24,7 @@ export class SpaceService {
         private readonly spaceRoleService: SpaceRoleService
     ){}
     
+    // 참여코드 난수 생성 함수
     createRandomCode(length: number) {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let result = '';
@@ -34,6 +35,7 @@ export class SpaceService {
         return result;
     }
 
+    // 관리자 코드와 참여자 코드 생성과 중복 체크 
     async checkCode(queryRunner: QueryRunner, createSpaceDto: CreateSpaceDto){
         let isUnique = false;
         let admin_code = '';
@@ -104,6 +106,7 @@ export class SpaceService {
         }
     }
 
+    // 내가 속한 공간 정보 조회
     async getMySpace(user_id:number){
         const userspace: Array<UserSpaceEntity> = await this.userSpaceRepo.find({ where: { user_id: user_id , isDel:'N'}, relations: ['space','role'] });
         //console.log(userspace);
@@ -129,6 +132,8 @@ export class SpaceService {
         return spaces;
     }
 
+    // 참여 코드로 공간 참여하기
+    // 참여 코드가 존재 하는지 체크 -> 참여코드의 권한 타입 체크 -> 참여 여부 체크 -> userspace에 등록
     async joinSpace(userid: number, joinSpaceDto: JoinSpaceDto) {
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
@@ -168,6 +173,8 @@ export class SpaceService {
         }
     }
 
+    // 참여코드의 정보 가져오기
+    // 참여코드 존재 여부 체크 -> 참여코드 권한 타입 체크 -> 해당 참여코드의 공간, 권한 정보 추출 
     async getJoincodeInfo(userid: number, joincode: string) {
 
         const spaceByCode = await this.SpaceRepo.findOne({ where: [{ admin_code: joincode , isDel: 'N'}, {common_code: joincode, isDel: 'N'}]});
@@ -196,6 +203,7 @@ export class SpaceService {
         
     }
 
+    // 공간 역할 soft delete(isDel update)
     async deleteRoleById(userid: number, deleteRoleDto: DeleteRoleDto){
         const spaceRoleById = await this.spaceRoleRepo.findOne({ where: { id: deleteRoleDto.role_id, isDel: 'N' }});
 
@@ -214,6 +222,7 @@ export class SpaceService {
         await this.spaceRoleRepo.update({id: deleteRoleDto.role_id}, {isDel: 'Y'});
     }
 
+    // 공간 soft delete(isDel update)
     async deleteSpaceById(userid: number, deleteSpaceDto: DeleteSpaceDto){
         const spaceById = await this.SpaceRepo.findOne({ where: { id: deleteSpaceDto.space_id, isDel: 'N'}});
 

@@ -13,11 +13,14 @@ export class SpaceController {
     private readonly logger = new Logger(SpaceController.name);
     constructor(private readonly spaceService: SpaceService){}
 
+
     @UseGuards(JwtServiceAuthGuard)
     @UsePipes(ValidationPipe)
     @Post()
     async createSpace(@Req() req, @Body() createSpaceParamDto: CreateSpaceParamDto){
-        this.logger.log(`POST /space has been executed`);
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`POST /space has been executed`);
+          }
         await this.spaceService.createSpace(req.user.id, createSpaceParamDto);
         return Object.assign({
             statusCode: 200,

@@ -14,8 +14,9 @@ export class RolesGuard implements CanActivate {
     const user_id = request.user.id; 
     const space_id = request.body.space_id;
 
+    // 로그인 id와 공간 id로 조건에 맞는 공간 역할을 찾는다.
     const userSpace = await this.userSpaceService.getUserSpace(user_id, space_id);
-
+    // userspace에 존재하고 권한 타입이 admin 인지 체크
     if(userSpace && userSpace.role.role_type === 'Admin' ){
         return true;
     }

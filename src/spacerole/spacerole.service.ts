@@ -11,6 +11,7 @@ export class SpaceRoleService {
         private readonly SpaceRoleRepo: Repository<SpaceRoleEntity>
     ){}
 
+    // 공간의 권한 타입 별 공간 권한 생성
     async createSpaceRoleBySpace(queryRunner: QueryRunner, space_id: number, admin_array: Array<string>, common_array: Array<string>, owner_role :string){
         let spaceRoleid = 0;
         for(let i = 0; i<admin_array.length; i++){
@@ -37,14 +38,15 @@ export class SpaceRoleService {
         return spaceRoleid;
     }
 
-    async createSpaceRoleByJoin(queryRunner: QueryRunner, space_id: number, role_name: string, role_type:string){
-        const createSpaceRoleDto = new CreateSpaceRoleDto();
-        createSpaceRoleDto.space_id = String(space_id);
-        createSpaceRoleDto.role_name = role_name;
-        createSpaceRoleDto.role_type = role_type;
+    // 공간 참여시 
+    // async createSpaceRoleByJoin(queryRunner: QueryRunner, space_id: number, role_name: string, role_type:string){
+    //     const createSpaceRoleDto = new CreateSpaceRoleDto();
+    //     createSpaceRoleDto.space_id = String(space_id);
+    //     createSpaceRoleDto.role_name = role_name;
+    //     createSpaceRoleDto.role_type = role_type;
         
-        const spaceRole = await queryRunner.manager.save(SpaceRoleEntity, createSpaceRoleDto);
-        return spaceRole.id;
-    }
+    //     const spaceRole = await queryRunner.manager.save(SpaceRoleEntity, createSpaceRoleDto);
+    //     return spaceRole.id;
+    // }
     
 }

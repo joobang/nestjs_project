@@ -8,6 +8,7 @@ export class AuthController {
     private readonly logger = new Logger(AuthController.name);
     constructor(private readonly authService: AuthService){}
 
+    // jwt 토큰 발급을 위한 로그인 api
     @UseGuards(LocalServiceAuthGuard)
     @Post('login')
     async login(@Req() req, @Res({ passthrough: true}) res){

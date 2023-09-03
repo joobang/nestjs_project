@@ -22,11 +22,11 @@ export class AuthService {
         const user = await this.userRepo.findOne({
             where:{email}
         }); 
-
+        // 유저 존재 유무 체크
         if (!user){
             throw new ForbiddenException('User does not exist.')
         }
-
+        // 비밀번호 일치 체크
         if(!(await bcrypt.compare(password, user.password))) {
             throw new ForbiddenException('Passwords do not match.');
         }
