@@ -8,12 +8,15 @@ import { UserSpaceService } from 'src/userspace/userspace.service';
 import { SpaceRoleService } from 'src/spacerole/spacerole.service';
 import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
 import { JoinSpaceDto } from './dto/join-space.dto';
+import { SpaceRoleEntity } from 'src/spacerole/spacerole.entity';
 
 @Injectable()
 export class SpaceService {
     constructor(
         @InjectRepository(SpaceEntity) private readonly SpaceRepo: Repository<SpaceEntity>,
-        @InjectRepository(UserSpaceEntity) private userSpaceRepository: Repository<UserSpaceEntity>,
+        @InjectRepository(UserSpaceEntity) private userSpaceRepo: Repository<UserSpaceEntity>,
+        @InjectRepository(SpaceRoleEntity) private spaceRoleRepo: Repository<SpaceRoleEntity>,
+        
         private readonly connection: Connection,
         private readonly userSpaceService: UserSpaceService,
         private readonly spaceRoleService: SpaceRoleService
@@ -100,7 +103,7 @@ export class SpaceService {
     }
 
     async getMySpace(user_id:number){
-        const userspace: Array<UserSpaceEntity> = await this.userSpaceRepository.find({ where: { user_id: user_id }, relations: ['space','role'] });
+        const userspace: Array<UserSpaceEntity> = await this.userSpaceRepo.find({ where: { user_id: user_id }, relations: ['space','role'] });
         //console.log(userspace);
         let spaces = [];
         userspace.forEach((data) => {
@@ -118,7 +121,7 @@ export class SpaceService {
         return spaces;
     }
 
-    async joinSapce(userid: number, joinSpaceDto: JoinSpaceDto) {
+    async joinSpace(userid: number, joinSpaceDto: JoinSpaceDto) {
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
         const joincode = joinSpaceDto.joincode;
@@ -132,12 +135,14 @@ export class SpaceService {
             console.log(spaceByCode);
             
             const space_id = spaceByCode.id;
-            // 사용자는 한 공간에 하나의 역할을 가지므로
+            // 사용자는 한 공간에 하나의 역할을 가짐.
             const spaceByuserId = await queryRunner.manager.findOne(UserSpaceEntity, { where: { space_id: space_id, user_id: userid }});
             if(spaceByuserId){
                 throw new ConflictException('Already join in this space.');
             }
             
+            // 현재 공간에 속해있지 않으면 
+            // 공간 역할 추가
             const spaceRole_id = await this.spaceRoleService.createSpaceRoleByJoin(queryRunner, space_id);
             // 공간 유저간 중간 테이블 등록
             //await this.userSpaceService.createUserSpace(queryRunner, userid, space_id, spaceRole_id);
@@ -151,5 +156,30 @@ export class SpaceService {
         } finally {
             await queryRunner.release();
         }
+    }
+
+    async getJoincodeInfo(userid: number, joincode: string) {
+
+        const spaceByCode = await this.SpaceRepo.findOne({ where: [{ admin_code: joincode }, {common_code: joincode}]});
+
+        if(!spaceByCode){
+            throw new NotFoundException('joincode not exists');
+        }
+        
+        const space_id = spaceByCode.id;
+        const role_type = spaceByCode.admin_code === joincode ? 'Admin' : 'Common';
+
+        const spaceRole = await this.spaceRoleRepo.find({ where : {space_id: space_id, role_type: role_type}});
+        
+        let roleNames = spaceRole.map(data => data.role_name);
+        
+        return {
+            space_id: space_id,
+            space_name: spaceByCode.space_name,
+            space_log_path: spaceByCode.space_logo_path,
+            role_type: role_type,
+            role_names: roleNames
+        };
+        
     }
 }

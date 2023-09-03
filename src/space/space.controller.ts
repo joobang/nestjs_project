@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
 import { CreateSpaceDto } from './dto/create-space.dto';
 import { SpaceService } from './space.service';
@@ -35,11 +35,23 @@ export class SpaceController {
     @Post('join')
     async joinSpace(@Req() req, @Body() joinSpaceDto: JoinSpaceDto){
         this.logger.log(`POST /space/join has been executed`);
-        const space = await this.spaceService.joinSapce(req.user.id, joinSpaceDto);
+        const space = await this.spaceService.joinSpace(req.user.id, joinSpaceDto);
         return Object.assign({
             data: space ,
             statusCode: 200,
             statusMsg: 'join space'
+        })
+    }
+
+    @UseGuards(JwtServiceAuthGuard)
+    @Get(':joincode')
+    async getJoincodeInfo(@Req() req, @Param('joincode') joincode: string){
+        this.logger.log(`GET /space/${joincode} has been executed`);
+        const space = await this.spaceService.getJoincodeInfo(req.user.id, joincode);
+        return Object.assign({
+            data: space ,
+            statusCode: 200,
+            statusMsg: 'get joincode Info'
         })
     }
 
