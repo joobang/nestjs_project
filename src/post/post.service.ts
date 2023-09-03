@@ -31,4 +31,17 @@ export class PostService {
             image_path: imagepath
         });
     }
+
+    async getPostBySpaceId(user_id: number, space_id: number){
+        const userspace = await this.userSpaceService.getUserSpace(user_id, space_id);
+        const post = await this.PostRepo.find({where: {space_id: space_id}});
+        const parsePost = post.map(item => {
+            return {
+                ...item,
+                file_path: JSON.parse(item.file_path),
+                image_path: JSON.parse(item.image_path),                    
+            }
+        })
+        return parsePost;
+    }
 }
