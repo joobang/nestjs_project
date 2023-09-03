@@ -71,4 +71,16 @@ export class SpaceController {
         })
     }
 
+    @UseGuards(JwtServiceAuthGuard)
+    @Delete(':id')
+    async deleteSpaceById(@Req() req, @Param('id') space_id: number){
+        this.logger.log(`DELETE /space/${space_id} has been executed`);
+        const role = await this.spaceService.deleteSpaceById(space_id);
+        return Object.assign({
+            data: role ,
+            statusCode: 200,
+            statusMsg: 'delete space success'
+        })
+    }
+
 }

@@ -108,11 +108,13 @@ export class SpaceService {
         let spaces = [];
         userspace.forEach((data) => {
             const object = Object.assign({
+                space_id: data.space_id,
                 space_name: data.space.space_name,
                 space_logo_path: data.space.space_logo_path,
                 owner_id: data.space.owner_id,
                 join_code: data.role.role_type === 'Admin' ? data.space.admin_code : data.space.common_code,
-                role_name: data.role.role_name
+                role_name: data.role.role_name,
+                role_type: data.role.role_type
             });
             if (data.space.owner_id !== String(user_id)) {
                 delete object.owner_id;
@@ -202,5 +204,34 @@ export class SpaceService {
             throw new BadRequestException('role is in use.');
         }
         await this.spaceRoleRepo.delete({id: role_id});
+    }
+
+    async deleteSpaceById(space_id: number){
+        const spaceById = await this.SpaceRepo.findOne({ where: { id: space_id }});
+
+        if(!spaceById){
+            throw new NotFoundException('space is not exists');
+        }
+
+        const queryRunner = this.connection.createQueryRunner();
+        await queryRunner.connect();
+        
+        await queryRunner.startTransaction();
+        try {
+            // 유저 공간(userspace) 삭제
+            await queryRunner.manager.delete(UserSpaceEntity, { space_id: space_id});
+            // 공간 역할(spacerole) 삭제
+            await queryRunner.manager.delete(SpaceRoleEntity, { space_id: space_id});
+            // 공간 (space) 삭제
+            await queryRunner.manager.delete(SpaceEntity, { id: space_id});
+
+            await queryRunner.commitTransaction();
+            return ;
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            throw error;
+        } finally {
+            await queryRunner.release();
+        }
     }
 }
