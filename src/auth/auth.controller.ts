@@ -12,7 +12,10 @@ export class AuthController {
     @UseGuards(LocalServiceAuthGuard)
     @Post('login')
     async login(@Req() req, @Res({ passthrough: true}) res){
-        this.logger.log('POST /auth/login has been executed')
+        
+        if (process.env.NODE_ENV === 'dev') {
+          this.logger.log('POST /auth/login has been executed');
+        }
         const payload: Payload = {id: req.user.id, email: req.user.email};
         const access_token = await this.authService.generateAccessToekn(payload);
         const refresh_token = await this.authService.generateRefreshToekn(payload);

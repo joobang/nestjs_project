@@ -12,11 +12,14 @@ export class PostController {
     @UsePipes(ValidationPipe)
     @Post()
     async createSpace(@Req() req, @Body() createPostDto: CreatePostDto){
-        this.logger.log(`POST /space has been executed`);
+        
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`POST /post has been executed`);
+        }
         await this.postServcie.createPost(req.user.id, createPostDto);
         return Object.assign({
             statusCode: 200,
-            statusMsg: 'create space'
+            statusMsg: 'create post'
         })
     }
 }

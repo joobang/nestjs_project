@@ -13,7 +13,7 @@ export class SpaceController {
     private readonly logger = new Logger(SpaceController.name);
     constructor(private readonly spaceService: SpaceService){}
 
-
+    // 공간 생성
     @UseGuards(JwtServiceAuthGuard)
     @UsePipes(ValidationPipe)
     @Post()
@@ -28,10 +28,14 @@ export class SpaceController {
         })
     }
 
+    // 내가 속한 공간정보
     @UseGuards(JwtServiceAuthGuard)
     @Get('myspace')
     async getMyprofile(@Req() req){
-        this.logger.log(`GET /space/myspace has been executed`);
+        
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`GET /space/myspace has been executed`);
+        }
         const space = await this.spaceService.getMySpace(req.user.id);
         return Object.assign({
             data: space ,
@@ -40,11 +44,15 @@ export class SpaceController {
         })
     }
 
+    // 공간 참여
     @UseGuards(JwtServiceAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('join')
     async joinSpace(@Req() req, @Body() joinSpaceDto: JoinSpaceDto){
-        this.logger.log(`POST /space/join has been executed`);
+        
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`POST /space/join has been executed`);
+        }
         const space = await this.spaceService.joinSpace(req.user.id, joinSpaceDto);
         return Object.assign({
             data: space ,
@@ -53,10 +61,14 @@ export class SpaceController {
         })
     }
 
+    // 참여코드로 공간정보 가져오기
     @UseGuards(JwtServiceAuthGuard)
     @Get(':joincode')
     async getJoincodeInfo(@Req() req, @Param('joincode') joincode: string){
-        this.logger.log(`GET /space/${joincode} has been executed`);
+
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`GET /space/${joincode} has been executed`);
+        }
         const space = await this.spaceService.getJoincodeInfo(req.user.id, joincode);
         return Object.assign({
             data: space ,
@@ -65,10 +77,14 @@ export class SpaceController {
         })
     }
 
+    // 공간 역할 삭제
     @UseGuards(JwtServiceAuthGuard, RolesGuard)
     @Delete('role')
     async deleteRoleById(@Req() req, @Body() deleteRoleDto: DeleteRoleDto){
-        this.logger.log(`PUT /space/role has been executed`);
+
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`PUT /space/role has been executed`);
+        }
         const role = await this.spaceService.deleteRoleById(req.user.id, deleteRoleDto);
         return Object.assign({
             data: role ,
@@ -77,10 +93,14 @@ export class SpaceController {
         })
     }
 
+    // 공간 삭제
     @UseGuards(JwtServiceAuthGuard, RolesGuard)
     @Delete()
     async deleteSpaceById(@Req() req, @Body() deleteSpaceDto: DeleteSpaceDto){
-        this.logger.log(`Delete /space has been executed`);
+ 
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`Delete /space has been executed`);
+        }
         const role = await this.spaceService.deleteSpaceById(req.user.id, deleteSpaceDto);
         return Object.assign({
             data: role ,

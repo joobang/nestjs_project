@@ -14,7 +14,10 @@ export class UserController {
     @UseGuards(JwtServiceAuthGuard)
     @Get('myprofile')
     async getMyprofile(@Req() req){
-        this.logger.log(`GET /user/myprofile has been executed`);
+
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`GET /user/myprofile has been executed`);
+        }
         const profile =await this.userService.getMyprofile(req.user.id);
         //console.log(profile);
         return Object.assign({
@@ -27,7 +30,10 @@ export class UserController {
     @UseGuards(JwtServiceAuthGuard)
     @Get(':id')
     async getUserById(@Param('id', new ParseIntPipe()) id: number) {
-        this.logger.log(`GET /user/${id} has been executed`);
+
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log(`GET /user/${id} has been executed`);
+        }
         const getUserById = await this.userService.getUserById(id);
         return Object.assign({
             data: { ...getUserById },
@@ -39,9 +45,11 @@ export class UserController {
  
     @Post()
     @UsePipes(ValidationPipe)
-    async createUser(@Body() createUserDto: CreateUserDto
-    ){
-        this.logger.log('POST /user has been executed');
+    async createUser(@Body() createUserDto: CreateUserDto){
+
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log('POST /user has been executed');
+        }
         const hashPassword = await this.userService.hashPassword(createUserDto.password);
         createUserDto.password = hashPassword;
         //console.log('Received values:', userEntity);
@@ -59,7 +67,10 @@ export class UserController {
         @Req() req, 
         @Body() updateParmDto: UpdateParamDto
     ){
-        this.logger.log('PUT /user/myprofile has been executed');
+
+        if (process.env.NODE_ENV === 'dev') {
+            this.logger.log('PUT /user/myprofile has been executed');
+        }
         
         const { password_confirm, ...body} = updateParmDto;
         const updateUserDto: UpdateUserDto = body;

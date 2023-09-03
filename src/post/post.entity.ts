@@ -15,8 +15,8 @@ export class PostEntity {
   @PrimaryGeneratedColumn()
   id: number;
   
-  @Column({type: 'varchar', length: 20, nullable: false })
-  user_id: string;
+  @Column({type: 'int', nullable: false })
+  user_id: number;
   
   @Column({type: 'int', nullable: false })
   space_id: number;
