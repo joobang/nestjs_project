@@ -118,11 +118,17 @@ export class SpaceService {
                 space_logo_path: data.space.space_logo_path,
                 owner_id: data.space.owner_id,
                 join_code: data.role.role_type === 'Admin' ? data.space.admin_code : data.space.common_code,
+                common_code: data.space.common_code,
+                admin_code: data.role.role_type === 'Admin' ? data.space.admin_code : '',
                 role_name: data.role.role_name,
                 role_type: data.role.role_type
             });
             if (data.space.owner_id !== String(user_id)) {
                 delete object.owner_id;
+            }
+
+            if (data.role.role_type === 'Common') {
+                delete object.admin_code;
             }
 
             spaces.push(object);

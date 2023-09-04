@@ -17,7 +17,7 @@ export class PostService {
     async createPost(user_id: number, createPostDto: CreatePostDto){
         const space_id = createPostDto.space_id;
         const userspace = await this.userSpaceService.getUserSpace(user_id, space_id)
-        console.log(userspace);
+        //console.log(userspace);
         // 참여자 인데 공지인 경우
         if((createPostDto.post_type === 'Notice') && (userspace.role.role_type === 'Common')){
             throw new BadRequestException('Common user cannot create Notice.');
@@ -48,13 +48,27 @@ export class PostService {
     async getPostBySpaceId(user_id: number, space_id: number){
         const userspace = await this.userSpaceService.getUserSpace(user_id, space_id);
         const post = await this.PostRepo.find({where: {space_id: space_id}});
-        const parsePost = post.map(item => {
-            return {
-                ...item,
-                file_path: JSON.parse(item.file_path),
-                image_path: JSON.parse(item.image_path),                    
-            }
-        })
+        //console.log(post);
+        let parsePost = {};
+        if(userspace.role.role_type === 'Common'){
+            parsePost = post.map(item => {
+                return {
+                    ...item,
+                    user_id: (user_id === item.user_id) || (item.isAno === 'N') ? item.user_id : '',
+                    file_path: JSON.parse(item.file_path),
+                    image_path: JSON.parse(item.image_path),                    
+                }
+            })
+        }else if(userspace.role.role_type === 'Admin'){
+            parsePost = post.map(item => {
+                return {
+                    ...item,
+                    file_path: JSON.parse(item.file_path),
+                    image_path: JSON.parse(item.image_path),                    
+                }
+            })
+        }
+        
         return parsePost;
     }
 }
