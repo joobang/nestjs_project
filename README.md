@@ -9,6 +9,10 @@ Dojoohwan 클라썸 과제
 - Typescript 4.9.5
 - Mysql 8.0
 
+dojoohwan_assign/classum.postman_collection.json 파일
+
+Postman imort 후에 API 테스트
+
 ## Installation
 
 ```bash
