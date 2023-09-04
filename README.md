@@ -41,6 +41,8 @@ $ npm run start:prod
 
 ## 디렉토리 구조
 ```
+📦init_db               -> docker-compose로 mysql 테이블 자동 생성
+ ┗ 📜create_db.sql   
 📦src
  ┣ 📂auth                   -> jwt 토큰, 로그인, 권한 검증 관련
  ┃ ┣ 📂guards                       

@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "4a2f2bcd-1901-4c6a-983e-f16e3415e032",
-		"name": "classum",
+		"_postman_id": "b8079676-f2c3-4241-bc58-572eae87926c",
+		"name": "classum Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -160,7 +160,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"ehwnghks@gmail.com\",\n    \"password\": \"Ehwnghks1!\"\n}",
+							"raw": "{\n    \"email\": \"ehwnghks@gmail.co.kr\",\n    \"password\": \"12345ehE!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -366,7 +366,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"space_id\" : 1,\n    \"role_id\" : 3\n}",
+							"raw": "{\n    \"space_id\" : 1,\n    \"role_id\" : 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -374,7 +374,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/space/role/3",
+							"raw": "http://localhost:3000/space/role",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -382,8 +382,7 @@
 							"port": "3000",
 							"path": [
 								"space",
-								"role",
-								"3"
+								"role"
 							]
 						}
 					},
