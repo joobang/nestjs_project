@@ -41,6 +41,8 @@ $ npm run start:prod
 
 ## 디렉토리 구조
 ```
+📜 .env.dev         -> DB 설정 정보 및 scret key 등 환경변수 파일
+📜 .env.prod
 📦init_db               -> docker-compose로 mysql 테이블 자동 생성
  ┗ 📜create_db.sql   
 📦src
@@ -286,6 +288,10 @@ $ npm run start:prod
 
 공간에 속해있는 참여자 혹은 관리자라면 게시글 작성을 할 수 있다.
 
+공간의 관리자면 공지, 질문을 작성할 수 있고, 참여자일 경우 질문만 작성할 수 있다.
+
+단, 참여자만 익명으로 작성할 수 있다.
+
 **Endpoint:**  
 `POST /post`
 
@@ -307,6 +313,10 @@ $ npm run start:prod
 현재 로그인 한 유저가 해당 공간에 속해있는지 확인하고
 
 공간에 속해있는 참여자 혹은 관리자라면 게시글을 조회한다.
+
+관리자라면 모든 게시물의 글쓴이를 확인할 수 있고, 
+
+참여자는 본인이 아니면 익명 게시글의 글쓴이를 볼 수 없다.
 
 **Endpoint:**  
 `GET /post/:id`
