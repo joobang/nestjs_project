@@ -1,10 +1,10 @@
 
 import { ArrayNotEmpty, IsArray, IsEmail, IsNumber, IsOptional, IsString, Length, Matches } from 'class-validator';
 
-export class DeleteSpaceDto {
+export class DeleteMeetingDto {
     
     @IsNumber()
-    space_id: number
+    meeting_id: number
     
 }
   

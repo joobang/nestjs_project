@@ -4,7 +4,7 @@ import { ArrayNotEmpty, IsArray, IsEmail, IsNumber, IsOptional, IsString, Length
 export class CreatePostDto {
   
     @IsNumber()
-    space_id: number;
+    meeting_id: number;
 
     @IsString()
     @Length(1, 255)

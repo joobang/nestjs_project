@@ -2,11 +2,11 @@
 import { ArrayNotEmpty, IsArray, IsEmail, IsOptional, IsString, Length, Matches } from 'class-validator';
 import { IsInArray } from 'src/utils/vaildate/is-in-array';
 
-export class CreateSpaceParamDto {
+export class CreateMeetingParamDto {
     
     @IsString()
     @Length(1, 100)
-    space_name: string;
+    meeting_name: string;
 
     @IsArray()
     @ArrayNotEmpty()
@@ -25,6 +25,6 @@ export class CreateSpaceParamDto {
 
     @IsOptional()
     @IsString()
-    space_logo_path: string;
+    meeting_logo_path: string;
 }
   

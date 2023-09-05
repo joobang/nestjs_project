@@ -3,23 +3,23 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryRunner, Repository } from 'typeorm';
 import { PostEntity } from './post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
-import { UserSpaceService } from 'src/userspace/userspace.service';
+import { UserMeetingService } from 'src/usermeeting/usermeeting.service';
 
 @Injectable()
 export class PostService {
     constructor(
         @InjectRepository(PostEntity)
         private readonly PostRepo: Repository<PostEntity>,
-        private readonly userSpaceService: UserSpaceService,
+        private readonly userMeetingService: UserMeetingService,
         
     ){}
 
     async createPost(user_id: number, createPostDto: CreatePostDto){
-        const space_id = createPostDto.space_id;
-        const userspace = await this.userSpaceService.getUserSpace(user_id, space_id)
-        //console.log(userspace);
+        const meeting_id = createPostDto.meeting_id;
+        const usermeeting = await this.userMeetingService.getUserMeeting(user_id, meeting_id)
+        //console.log(usermeeting);
         // 참여자 인데 공지인 경우
-        if((createPostDto.post_type === 'Notice') && (userspace.role.role_type === 'Common')){
+        if((createPostDto.post_type === 'Notice') && (usermeeting.role.role_type === 'Common')){
             throw new BadRequestException('Common user cannot create Notice.');
         }
 
@@ -27,7 +27,7 @@ export class PostService {
             throw new BadRequestException('Notices cannot be posted anonymously.');
         }
 
-        if((createPostDto.isAno === 'Y') && (userspace.role.role_type === 'Admin')){
+        if((createPostDto.isAno === 'Y') && (usermeeting.role.role_type === 'Admin')){
             throw new BadRequestException('Admin cannot post anonymously.');
         }
 
@@ -35,7 +35,7 @@ export class PostService {
         const imagepath = JSON.stringify(createPostDto.image_path);
         await this.PostRepo.save({
             user_id: user_id,
-            space_id: createPostDto.space_id,
+            meeting_id: createPostDto.meeting_id,
             title: createPostDto.title,
             content: createPostDto.content,
             post_type: createPostDto.post_type,
@@ -45,12 +45,12 @@ export class PostService {
         });
     }
 
-    async getPostBySpaceId(user_id: number, space_id: number){
-        const userspace = await this.userSpaceService.getUserSpace(user_id, space_id);
-        const post = await this.PostRepo.find({where: {space_id: space_id}});
+    async getPostByMeetingId(user_id: number, meeting_id: number){
+        const usermeeting = await this.userMeetingService.getUserMeeting(user_id, meeting_id);
+        const post = await this.PostRepo.find({where: {meeting_id: meeting_id}});
         //console.log(post);
         let parsePost = {};
-        if(userspace.role.role_type === 'Common'){
+        if(usermeeting.role.role_type === 'Common'){
             parsePost = post.map(item => {
                 return {
                     ...item,
@@ -59,7 +59,7 @@ export class PostService {
                     image_path: JSON.parse(item.image_path),                    
                 }
             })
-        }else if(userspace.role.role_type === 'Admin'){
+        }else if(usermeeting.role.role_type === 'Admin'){
             parsePost = post.map(item => {
                 return {
                     ...item,

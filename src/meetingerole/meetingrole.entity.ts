@@ -1,4 +1,5 @@
-import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
+
+import { UserMeetingEntity } from 'src/usermeeting/usermeeting.entity';
 import {
     Entity,
     Column,
@@ -9,12 +10,12 @@ import {
   } from 'typeorm';
 
 @Entity('SPACEROLE')
-export class SpaceRoleEntity {
+export class MeetingRoleEntity {
   @PrimaryGeneratedColumn()
   id: number;
   
   @Column({type: 'varchar', length: 20, nullable: false })
-  space_id: string;
+  meeting_id: string;
 
   @Column({type: 'varchar', length: 50, nullable: false })
   role_name: string;
@@ -36,8 +37,8 @@ export class SpaceRoleEntity {
   })
   updated_at: Date;
 
-  @OneToMany(()=> UserSpaceEntity, userSpaceEntity => userSpaceEntity.user)
-  userSpace: UserSpaceEntity[];
+  @OneToMany(()=> UserMeetingEntity, userMeetingEntity => userMeetingEntity.user)
+  userMeeting: UserMeetingEntity[];
 
 }
   

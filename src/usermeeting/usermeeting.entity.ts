@@ -1,5 +1,5 @@
-import { SpaceEntity } from 'src/space/space.entity';
-import { SpaceRoleEntity } from 'src/spacerole/spacerole.entity';
+import { MeetingEntity } from 'src/meeting/meeting.entity';
+import { MeetingRoleEntity } from 'src/meetingerole/meetingrole.entity';
 import { UserEntity } from 'src/user/user.entity';
 import {
     Entity,
@@ -13,15 +13,15 @@ import {
   } from 'typeorm';
 
 @Entity({name: 'USERSPACE'})
-export class UserSpaceEntity {
+export class UserMeetingEntity {
   @PrimaryColumn()
   user_id: number;
 
   @PrimaryColumn()
-  space_id: number;
+  meeting_id: number;
 
   @Column({type: 'int'})
-  space_role_id: number;
+  meeting_role_id: number;
     
   @Column({type: 'varchar', length: 5, default: 'N' })
   isDel: string;
@@ -37,17 +37,17 @@ export class UserSpaceEntity {
   })
   updated_at: Date;
 
-  @ManyToOne(()=> UserEntity, userEntity=> userEntity.userSpace)
+  @ManyToOne(()=> UserEntity, userEntity=> userEntity.userMeeting)
   @JoinColumn({ name: 'user_id',referencedColumnName: 'id' }) 
   user: UserEntity;
 
-  @ManyToOne(()=> SpaceEntity, spaceEntity=> spaceEntity.userSpace)
-  @JoinColumn({ name: 'space_id', referencedColumnName: 'id' }) 
-  space: SpaceEntity;
+  @ManyToOne(()=> MeetingEntity, meetingEntity=> meetingEntity.userMeeting)
+  @JoinColumn({ name: 'meeting_id', referencedColumnName: 'id' }) 
+  meeting: MeetingEntity;
 
-  @ManyToOne(()=> SpaceRoleEntity, spaceRoleEntity=> spaceRoleEntity.userSpace)
-  @JoinColumn({ name: 'space_role_id', referencedColumnName: 'id' }) 
-  role: SpaceRoleEntity;
+  @ManyToOne(()=> MeetingRoleEntity, meetingRoleEntity=> meetingRoleEntity.userMeeting)
+  @JoinColumn({ name: 'meeting_role_id', referencedColumnName: 'id' }) 
+  role: MeetingRoleEntity;
 
 }
   

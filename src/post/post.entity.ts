@@ -1,4 +1,4 @@
-import { SpaceEntity } from 'src/space/space.entity';
+import { MeetingEntity } from 'src/meeting/meeting.entity';
 import {
     Entity,
     Column,
@@ -19,7 +19,7 @@ export class PostEntity {
   user_id: number;
   
   @Column({type: 'int', nullable: false })
-  space_id: number;
+  meeting_id: number;
   
   @Column({type: 'varchar', length: 255, nullable: false})
   title: string;
@@ -53,9 +53,9 @@ export class PostEntity {
   })
   updated_at: Date;
 
-  @ManyToOne(()=> SpaceEntity, spaceEntity=> spaceEntity.post)
-  @JoinColumn({ name: 'space_id', referencedColumnName: 'id' }) 
-  space: SpaceEntity;
+  @ManyToOne(()=> MeetingEntity, meetingEntity=> meetingEntity.post)
+  @JoinColumn({ name: 'meeting_id', referencedColumnName: 'id' }) 
+  meeting: MeetingEntity;
 
 }
   

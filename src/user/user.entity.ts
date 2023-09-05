@@ -1,4 +1,5 @@
-import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
+
+import { UserMeetingEntity } from 'src/usermeeting/usermeeting.entity';
 import {
     Entity,
     Column,
@@ -42,8 +43,8 @@ export class UserEntity {
   })
   updated_at: Date;
 
-  @OneToMany(()=> UserSpaceEntity, userSpaceEntity => userSpaceEntity.user)
-  userSpace: UserSpaceEntity[];
+  @OneToMany(()=> UserMeetingEntity, userMeetingEntity => userMeetingEntity.user)
+  userMeeting: UserMeetingEntity[];
 
 }
   

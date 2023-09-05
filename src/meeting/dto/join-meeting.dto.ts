@@ -1,7 +1,7 @@
 
 import { ArrayNotEmpty, IsArray, IsEmail, IsOptional, IsString, Length, Matches } from 'class-validator';
 
-export class JoinSpaceDto {
+export class JoinMeetingDto {
     
     @IsString()
     @Length(1, 8)

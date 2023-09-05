@@ -4,11 +4,11 @@ import { PostEntity } from './post.entity';
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
 import { ChatEntity } from 'src/chat/chat.entity';
-import { UserSpaceModule } from 'src/userspace/userspace.module';
+import { UserMeetingModule } from 'src/usermeeting/usermeeting.module';
 @Module({
     imports: [
         TypeOrmModule.forFeature([PostEntity, ChatEntity]),
-        UserSpaceModule
+        UserMeetingModule
     ],
     controllers: [PostController],
     providers: [PostService],

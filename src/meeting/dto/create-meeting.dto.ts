@@ -1,11 +1,11 @@
 
 import { ArrayNotEmpty, IsArray, IsEmail, IsOptional, IsString, Length, Matches } from 'class-validator';
 
-export class CreateSpaceDto {
+export class CreateMeetingDto {
     
     @IsString()
     @Length(1, 100)
-    space_name: string;
+    meeting_name: string;
 
     @IsString()
     @Length(1, 20)
@@ -21,6 +21,6 @@ export class CreateSpaceDto {
 
     @IsOptional()
     @IsString()
-    space_logo_path: string;
+    meeting_logo_path: string;
 }
   

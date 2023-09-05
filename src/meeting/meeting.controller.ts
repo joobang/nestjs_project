@@ -1,46 +1,45 @@
 import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { JwtServiceAuthGuard } from 'src/auth/guards/jwt-service.guard';
-import { CreateSpaceDto } from './dto/create-space.dto';
-import { SpaceService } from './space.service';
-import { CreateSpaceParamDto } from './dto/create-param.dto';
-import { JoinSpaceDto } from './dto/join-space.dto';
+import { MeetingService } from './meeting.service';
 import { DeleteRoleDto } from './dto/delete-role.dto';
-import { DeleteSpaceDto } from './dto/delete-space.dto';
 import { RolesGuard } from 'src/auth/guards/role-service.guard';
+import { CreateMeetingParamDto } from './dto/create-param.dto';
+import { JoinMeetingDto } from './dto/join-meeting.dto';
+import { DeleteMeetingDto } from './dto/delete-meeting.dto';
 
-@Controller('space')
-export class SpaceController {
-    private readonly logger = new Logger(SpaceController.name);
-    constructor(private readonly spaceService: SpaceService){}
+@Controller('meeting')
+export class MeetingController {
+    private readonly logger = new Logger(MeetingController.name);
+    constructor(private readonly meetingService: MeetingService){}
 
     // 공간 생성
     @UseGuards(JwtServiceAuthGuard)
     @UsePipes(ValidationPipe)
     @Post()
-    async createSpace(@Req() req, @Body() createSpaceParamDto: CreateSpaceParamDto){
+    async createMeeting(@Req() req, @Body() createMeetingParamDto: CreateMeetingParamDto){
         if (process.env.NODE_ENV === 'dev') {
-            this.logger.log(`POST /space has been executed`);
+            this.logger.log(`POST /meeting has been executed`);
           }
-        await this.spaceService.createSpace(req.user.id, createSpaceParamDto);
+        await this.meetingService.createMeeting(req.user.id, createMeetingParamDto);
         return Object.assign({
             statusCode: 200,
-            statusMsg: 'create space'
+            statusMsg: 'create meeting'
         })
     }
 
     // 내가 속한 공간정보
     @UseGuards(JwtServiceAuthGuard)
-    @Get('myspace')
+    @Get('mymeeting')
     async getMyprofile(@Req() req){
         
         if (process.env.NODE_ENV === 'dev') {
-            this.logger.log(`GET /space/myspace has been executed`);
+            this.logger.log(`GET /meeting/mymeeting has been executed`);
         }
-        const space = await this.spaceService.getMySpace(req.user.id);
+        const meeting = await this.meetingService.getMyMeeting(req.user.id);
         return Object.assign({
-            data: space ,
+            data: meeting ,
             statusCode: 200,
-            statusMsg: 'get my space'
+            statusMsg: 'get my meeting'
         })
     }
 
@@ -48,16 +47,16 @@ export class SpaceController {
     @UseGuards(JwtServiceAuthGuard)
     @UsePipes(ValidationPipe)
     @Post('join')
-    async joinSpace(@Req() req, @Body() joinSpaceDto: JoinSpaceDto){
+    async joinMeeting(@Req() req, @Body() joinMeetingDto: JoinMeetingDto){
         
         if (process.env.NODE_ENV === 'dev') {
-            this.logger.log(`POST /space/join has been executed`);
+            this.logger.log(`POST /meeting/join has been executed`);
         }
-        const space = await this.spaceService.joinSpace(req.user.id, joinSpaceDto);
+        const meeting = await this.meetingService.joinMeeting(req.user.id, joinMeetingDto);
         return Object.assign({
-            data: space ,
+            data: meeting ,
             statusCode: 200,
-            statusMsg: 'join space'
+            statusMsg: 'join meeting'
         })
     }
 
@@ -67,11 +66,11 @@ export class SpaceController {
     async getJoincodeInfo(@Req() req, @Param('joincode') joincode: string){
 
         if (process.env.NODE_ENV === 'dev') {
-            this.logger.log(`GET /space/${joincode} has been executed`);
+            this.logger.log(`GET /meeting/${joincode} has been executed`);
         }
-        const space = await this.spaceService.getJoincodeInfo(req.user.id, joincode);
+        const meeting = await this.meetingService.getJoincodeInfo(req.user.id, joincode);
         return Object.assign({
-            data: space ,
+            data: meeting ,
             statusCode: 200,
             statusMsg: 'get joincode Info'
         })
@@ -83,9 +82,9 @@ export class SpaceController {
     async deleteRoleById(@Req() req, @Body() deleteRoleDto: DeleteRoleDto){
 
         if (process.env.NODE_ENV === 'dev') {
-            this.logger.log(`PUT /space/role has been executed`);
+            this.logger.log(`PUT /meeting/role has been executed`);
         }
-        const role = await this.spaceService.deleteRoleById(req.user.id, deleteRoleDto);
+        const role = await this.meetingService.deleteRoleById(req.user.id, deleteRoleDto);
         return Object.assign({
             data: role ,
             statusCode: 200,
@@ -96,16 +95,16 @@ export class SpaceController {
     // 공간 삭제
     @UseGuards(JwtServiceAuthGuard, RolesGuard)
     @Delete()
-    async deleteSpaceById(@Req() req, @Body() deleteSpaceDto: DeleteSpaceDto){
+    async deleteMeetingById(@Req() req, @Body() deleteMeetingDto: DeleteMeetingDto){
  
         if (process.env.NODE_ENV === 'dev') {
-            this.logger.log(`Delete /space has been executed`);
+            this.logger.log(`Delete /meeting has been executed`);
         }
-        const role = await this.spaceService.deleteSpaceById(req.user.id, deleteSpaceDto);
+        const role = await this.meetingService.deleteMeetingById(req.user.id, deleteMeetingDto);
         return Object.assign({
             data: role ,
             statusCode: 200,
-            statusMsg: 'delete space success'
+            statusMsg: 'delete meeting success'
         })
     }
 

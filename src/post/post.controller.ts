@@ -11,7 +11,7 @@ export class PostController {
     @UseGuards(JwtServiceAuthGuard)
     @UsePipes(ValidationPipe)
     @Post()
-    async createSpace(@Req() req, @Body() createPostDto: CreatePostDto){
+    async createMeeting(@Req() req, @Body() createPostDto: CreatePostDto){
         
         if (process.env.NODE_ENV === 'dev') {
             this.logger.log(`POST /post has been executed`);
@@ -31,11 +31,11 @@ export class PostController {
         if (process.env.NODE_ENV === 'dev') {
             this.logger.log(`GET /post/:id has been executed`);
         }
-        const data = await this.postServcie.getPostBySpaceId(req.user.id, id);
+        const data = await this.postServcie.getPostByMeetingId(req.user.id, id);
         return Object.assign({
             data: data,
             statusCode: 200,
-            statusMsg: 'get posts by space id'
+            statusMsg: 'get posts by meeting id'
         })
     }
 }

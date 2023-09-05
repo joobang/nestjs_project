@@ -1,5 +1,5 @@
 import { PostEntity } from 'src/post/post.entity';
-import { UserSpaceEntity } from 'src/userSpace/userspace.entity';
+import { UserMeetingEntity } from 'src/usermeeting/usermeeting.entity';
 import {
     Entity,
     Column,
@@ -10,15 +10,15 @@ import {
   } from 'typeorm';
 
 @Entity('SPACE')
-export class SpaceEntity {
+export class MeetingEntity {
   @PrimaryGeneratedColumn()
   id: number;
   
   @Column({type: 'varchar', length: 100, nullable: false })
-  space_name: string;
+  meeting_name: string;
 
   @Column({type: 'varchar', length: 255, nullable: true })
-  space_logo_path: string;
+  meeting_logo_path: string;
   
   @Column({type: 'varchar', length: 20, nullable: false })
   owner_id: string;
@@ -43,10 +43,10 @@ export class SpaceEntity {
   })
   updated_at: Date;
 
-  @OneToMany(()=> UserSpaceEntity, userSpaceEntity => userSpaceEntity.space)
-  userSpace: UserSpaceEntity[];
+  @OneToMany(()=> UserMeetingEntity, userMeetingEntity => userMeetingEntity.meeting)
+  userMeeting: UserMeetingEntity[];
 
-  @OneToMany(()=> PostEntity, postEntity => postEntity.space)
+  @OneToMany(()=> PostEntity, postEntity => postEntity.meeting)
   post: PostEntity[];
 
 }

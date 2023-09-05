@@ -1,11 +1,11 @@
 
 import { IsEmail, IsOptional, IsString, Length, Matches } from 'class-validator';
 
-export class CreateSpaceRoleDto {
+export class CreateMeetingRoleDto {
     
     @IsString()
     @Length(1, 20)
-    space_id: string;
+    meeting_id: string;
 
     @IsString()
     @Length(1, 50)

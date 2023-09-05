@@ -6,10 +6,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeormConfig } from './config/typeorm.config';
 import { AuthModule } from './auth/auth.module';
-import { SpaceController } from './space/space.controller';
-import { SpaceService } from './space/space.service';
-import { SpaceModule } from './space/space.module';
-import { UserSpaceModule } from './userspace/userspace.module';
+import { MeetingController } from './meeting/meeting.controller';
+import { MeetingService } from './meeting/meeting.service';
+import { MeetingModule } from './meeting/meeting.module';
+import { UserMeetingModule } from './usermeeting/usermeeting.module';
 import { PostModule } from './post/post.module';
 
 @Module({
@@ -25,8 +25,8 @@ import { PostModule } from './post/post.module';
     }),
     UserModule,
     AuthModule,
-    SpaceModule,
-    UserSpaceModule,
+    MeetingModule,
+    UserMeetingModule,
     PostModule
   ],
   controllers: [AppController],
