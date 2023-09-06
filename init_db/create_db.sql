@@ -9,10 +9,10 @@ CREATE TABLE USERS (
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
-CREATE TABLE SPACE (
+CREATE TABLE MEETING (
     id  SERIAL PRIMARY KEY,
-    space_name VARCHAR(100),
-    space_logo_path VARCHAR(255),
+    meeting_name VARCHAR(100),
+    meeting_logo_path VARCHAR(255),
     owner_id VARCHAR(20),
     admin_code  VARCHAR(20) unique,
     common_code  VARCHAR(20) unique,
@@ -20,19 +20,19 @@ CREATE TABLE SPACE (
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
-CREATE TABLE SPACEROLE (
+CREATE TABLE MEETINGROLE (
     id  SERIAL PRIMARY KEY,
-    space_id  VARCHAR(20),
+    meeting_id  VARCHAR(20),
     role_name  VARCHAR(50),
     role_type VARCHAR(10),
     isDel VARCHAR(5) default 'N',
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
 );
-CREATE TABLE USERSPACE (
+CREATE TABLE USERMEETING (
     user_id INT,
-    space_id INT,
-    space_role_id INT,
+    meeting_id INT,
+    meeting_role_id INT,
     isDel VARCHAR(5) default 'N',
     created_at timestamp not null default CURRENT_TIMESTAMP,
     updated_at timestamp not null default current_timestamp on update current_timestamp
@@ -40,7 +40,7 @@ CREATE TABLE USERSPACE (
 CREATE TABLE POST (
     id  SERIAL PRIMARY KEY,
     user_id  VARCHAR(20),
-    space_id  INT,
+    meeting_id  INT,
     title VARCHAR(255),
     content TEXT,
     post_type VARCHAR(20),
