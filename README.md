@@ -31,10 +31,6 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## ERD
-
-![Alt text](image-2.png)
-
 ## 디렉토리 구조
 ```
 📜 .env.dev         -> DB 설정 정보 및 scret key 등 환경변수 파일
